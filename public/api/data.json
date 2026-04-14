@@ -2,13 +2,15 @@
   "about": {
     "name": "Baxtiyorov Shaxriyor",
     "title": "Front End Developer",
-    "description": "I am a passionate front-end developer with experience in building web applications using modern technologies. I enjoy creating efficient and scalable solutions to solve real-world problems. I am always eager to learn new technologies and continuously improve my skills to stay up-to-date with the latest trends in web development. I am currently expanding my knowledge in back-end development to become a full stack developer in the future. I am also a strong team player, detail-oriented, and motivated to deliver high-quality user experiences.",
+    "description": "Front End Developer skilled in building responsive and modern web applications using HTML, CSS, JavaScript, and React. Focused on clean UI, performance, and user experience. Continuously learning and improving with modern technologies.",
+    "about_job": "Looking for opportunities to work on real-world projects, collaborate with developers, and grow as a Front End Engineer. Open to internships, freelance work, and junior positions.",
     "image": "/illustrations/avatar-1.png",
     "tag": "Web Developer",
+    "languages": ["English", "Russian", "Uzbek"],
     "social": {
       "email": "baxtiyorovdev@gmail.com",
       "phone": "+998 (94) 808-16-14",
-      "location": "Qashqadaryo, Uzbekistan",
+      "location": "Qashqadaryo, UZ",
       "birthday": "October 22, 2010",
       "telegram": "https://t.me/baxtiyorovdev",
       "github": "https://github.com/baxtiyorovdev",
@@ -57,11 +59,11 @@
       },
       {
         "name": "CSS",
-        "level": "Advanced"
+        "level": "Intermediate"
       },
       {
         "name": "JavaScript",
-        "level": "Advanced"
+        "level": "Intermediate"
       },
       {
         "name": "TypeScript",
@@ -100,35 +102,48 @@
       "title": "Dictionary App",
       "description": "A simple dictionary app built with React, featuring search functionality and word definitions.",
       "image": "/images/dictionary-photo.png",
-      "link": "https://splendid-figolla-2968a8.netlify.app/"
+      "link": "https://splendid-figolla-2968a8.netlify.app/",
+      "github": "https://github.com/baxtiyorovdev/dictionary-app",
+      "technologies": ["React", "CSS", "HTML", "JavaScript"]
     },
     {
       "id": 2,
       "title": "Github User Finder",
       "description": "A simple application that allows users to search for and view information about GitHub users.",
       "image": "/images/github-photo.png",
-      "link": "https://github-accout-finder.netlify.app/"
+      "link": "https://github-accout-finder.netlify.app/",
+      "technologies": ["React", "CSS", "HTML", "JavaScript"]
     },
     {
       "id": 3,
       "title": "Movie Entertainment",
       "description": "A movie application that allows users to search for and view information about movies.",
       "image": "/images/movie-photo.png",
-      "link": "https://movie-erntartainment.netlify.app/"
+      "link": "https://movie-erntartainment.netlify.app/",
+      "technologies": ["React", "CSS", "HTML", "JavaScript"]
     },
     {
       "id": 4,
       "title": "Dino Restaurant",
       "description": "A simple restaurant application built with React, allowing users to browse menu items and place orders.",
       "image": "/images/dino-restaurant-photo.png",
-      "link": "https://dino-restaurant.netlify.app/"
+      "link": "https://dino-restaurant.netlify.app/",
+      "technologies": ["Html", "CSS", "JavaScript"]
     },
     {
       "id": 5,
       "title": "POS System",
       "description": "A simple point-of-sale system for managing sales and inventory.",
       "image": "/images/pos-system-photo.png",
-      "type": "private"
+      "technologies": [
+        "Next.js",
+        "CSS",
+        "TypeScript",
+        "Node.js",
+        "Prisma",
+        "PostgreSQL"
+      ],
+      "private": true
     }
   ]
 }

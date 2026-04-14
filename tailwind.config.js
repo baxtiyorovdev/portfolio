@@ -2,6 +2,9 @@
 export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  daisyui: {
+    themes: false,
+  },
   theme: {
     extend: {
       colors: {

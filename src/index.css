@@ -2,24 +2,22 @@
 
 @import "tailwindcss";
 
-/* DESIGN TOKENS */
 :root {
   --jet: hsl(0, 0%, 85%);
   --onyx: hsl(0, 0%, 95%);
   --eerie-black-1: hsl(0, 0%, 98%);
   --eerie-black-2: hsl(0, 0%, 100%);
   --smoky-black: hsl(0, 0%, 100%);
-  --white-1: hsl(0, 0%, 20%); /* was too dark */
+  --white-1: hsl(0, 0%, 20%);
   --white-2: hsl(0, 0%, 10%);
   --accent: hsl(45, 100%, 50%);
   --gray-70: hsla(0, 0%, 20%, 0.7);
-
   --glass-bg: rgba(240, 240, 240, 0.6);
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
   --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
+
 .dark {
-  /* DARK MODE (your original values) */
   --jet: hsl(0, 0%, 22%);
   --onyx: hsl(240, 1%, 17%);
   --eerie-black-1: hsl(240, 2%, 13%);
@@ -29,15 +27,12 @@
   --white-2: hsl(0, 0%, 98%);
   --accent: hsl(45, 100%, 72%);
   --gray-70: hsla(0, 0%, 84%, 0.7);
-
   --glass-bg: rgba(0, 0, 0, 0.2);
   --glass-border: rgba(0, 0, 0, 0.1);
-
   --shadow-soft: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
   --shadow-card: 0 16px 30px hsla(0, 0%, 0%, 0.25);
 }
 
-/* TAILWIND v4 THEME */
 @theme {
   --color-jet: var(--jet);
   --color-onyx: var(--onyx);
@@ -49,16 +44,12 @@
   --color-accent: var(--accent);
   --color-gray70: var(--gray-70);
   --color-glass-bg: var(--glass-bg);
-
   --shadow-soft: var(--shadow-soft);
   --shadow-card: var(--shadow-card);
-
   --radius-xl2: 20px;
-
   --font-poppins: "Poppins", sans-serif;
 }
 
-/* BASE */
 html {
   font-family: var(--font-poppins);
 }
@@ -66,42 +57,9 @@ html {
 body {
   background: var(--color-smoky);
 }
+
 #tsparticles {
   position: fixed;
   inset: 0;
   z-index: -1;
-}
-
-/* BLURBLOB */
-
-.blob {
-  position: fixed;
-  width: 500px;
-  height: 500px;
-  /* Блюр сделает точки по краям мягкими */
-  filter: blur(40px);
-  opacity: 0.8;
-  border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
-  z-index: -1;
-
-  /* Создаем точки вместо сплошного фона */
-  background-image: radial-gradient(#f59e0b 2px, transparent 2px);
-
-  /* УПРАВЛЕНИЕ РАССТОЯНИЕМ МЕЖДУ ТОЧКАМИ */
-  background-size: 7px 7px;
-
-  animation-delay: -3s;
-}
-
-@keyframes float {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-40px, -60px) scale(1.1);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
 }
