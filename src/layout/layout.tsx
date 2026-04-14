@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { CiMail, CiCalendar, CiLocationOn } from "react-icons/ci";
 import { IoPhonePortraitOutline } from "react-icons/io5";
-import type { PortfolioData } from "../types";
+import type { PortfolioData } from "../types/index.ts";
 export default function MainLayout() {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [showContacts, setShowContacts] = useState(false);
