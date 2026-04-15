@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import type { PortfolioData } from "../../types";
 import Languages from "../../components/languages/Languages";
 import ProgLanguagesSmall from "../../components/prog-languages-small/ProgLanguagesSmall";
+import usePortfolioData from "../../hooks/usePortfolioData";
 
 export default function About() {
-  const [data, setData] = useState<PortfolioData | null>(null);
-
-  useEffect(() => {
-    fetch("/api/data.json")
-      .then((res) => res.json())
-      .then((portfolioData) => setData(portfolioData));
-  }, []);
+  const data = usePortfolioData();
 
   return (
     <motion.div
@@ -42,23 +35,23 @@ export default function About() {
       {/* DESCRIPTION */}
       <motion.p
         className="mb-4"
-        key={data?.about?.description}
+        key={data.about.description}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25 }}
       >
-        {data?.about?.description || "Loading..."}
+        {data.about.description}
       </motion.p>
 
       {/* JOB INFO */}
       <motion.p
         className="mb-6"
-        key={data?.about?.about_job}
+        key={data.about.about_job}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        {data?.about?.about_job || "Loading..."}
+        {data.about.about_job}
       </motion.p>
 
       {/* LANGUAGES SECTION */}
@@ -87,12 +80,12 @@ export default function About() {
         </motion.p>
 
         <motion.div
-          key={data?.about?.languages?.length}
+          key={data.about.languages.length}
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.55 }}
         >
-          <Languages languages={data?.about?.languages || []} />
+          <Languages languages={data.about.languages} />
         </motion.div>
       </motion.div>
 
@@ -107,7 +100,7 @@ export default function About() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.7 }}
         >
-          <ProgLanguagesSmall skills={data?.resume?.skills || []} />
+          <ProgLanguagesSmall skills={data.resume.skills} />
         </motion.div>
       </motion.div>
     </motion.div>

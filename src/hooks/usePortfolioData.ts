@@ -1,8 +1,5 @@
-import { useState } from "react";
-import { getStoredPortfolioData } from "../lib/storage";
+import { portfolioData } from "../data/portfolioData";
 
 export default function usePortfolioData() {
-  const [data] = useState(getStoredPortfolioData);
-
-  return data;
+  return portfolioData;
 }

@@ -140,7 +140,8 @@ export const portfolioData: PortfolioData = {
     {
       id: 5,
       title: "POS System",
-      description: "A simple point-of-sale system for managing sales and inventory.",
+      description:
+        "A simple point-of-sale system for managing sales and inventory.",
       image: "/images/pos-system-photo.png",
       technologies: [
         "Next.js",
