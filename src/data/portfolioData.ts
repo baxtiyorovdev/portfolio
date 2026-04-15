@@ -15,7 +15,7 @@ export const portfolioData: PortfolioData = {
       email: "baxtiyorovdev@gmail.com",
       phone: "+998 (94) 808-16-14",
       location: "Qashqadaryo, UZ",
-      birthday: "October 22, 2010",
+      experience: "October 22, 2010",
       telegram: "https://t.me/baxtiyorovdev",
       github: "https://github.com/baxtiyorovdev",
       instagram: "https://www.instagram.com/baxtiyorovdev",
