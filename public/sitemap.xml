@@ -7,18 +7,13 @@
   </url>
 
   <url>
-    <loc>https://baxtiyorov.dev/about</loc>
+    <loc>https://baxtiyorov.dev/resume</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://baxtiyorov.dev/projects</loc>
     <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://baxtiyorov.dev/blog</loc>
-    <priority>0.7</priority>
   </url>
 
   <url>
