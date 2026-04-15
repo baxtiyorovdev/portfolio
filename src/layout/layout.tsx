@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-import type { PortfolioData } from "../types";
 import BackgroundEffects from "../components/layout/background-effects/BackgroundEffects";
 import Navbar from "../components/layout/navbar/Navbar";
 import Sidebar from "../components/layout/sidebar/Sidebar";
+import usePortfolioData from "../hooks/usePortfolioData";
+import { getStoredTheme, setStoredTheme } from "../lib/storage";
 
 export default function MainLayout() {
-  const [data, setData] = useState<PortfolioData | null>(null);
+  const data = usePortfolioData();
   const [showContacts, setShowContacts] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(getStoredTheme);
   const [stuck, setStuck] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,10 +30,11 @@ export default function MainLayout() {
 
     if (darkMode) {
       root.classList.add("dark");
-      return;
+    } else {
+      root.classList.remove("dark");
     }
 
-    root.classList.remove("dark");
+    setStoredTheme(darkMode);
   }, [darkMode]);
 
   useEffect(() => {
@@ -49,12 +51,6 @@ export default function MainLayout() {
       window.removeEventListener("resize", syncContactsVisibility);
     };
   }, [showContacts]);
-
-  useEffect(() => {
-    fetch("/api/data.json")
-      .then((res) => res.json())
-      .then((portfolioData) => setData(portfolioData));
-  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-10 py-16 flex gap-6 min-h-screen flex-col lg:flex-row text-white2">
