@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import ThemeSwitch from "../theme-switch/ThemeSwitch";
 
 type NavbarProps = {
@@ -10,7 +11,7 @@ type NavbarProps = {
 };
 
 const navLinkClassName =
-  "hover:text-accent transition-colors duration-300 ease-in-out";
+  "relative hover:text-accent transition-colors duration-300 ease-in-out";
 
 export default function Navbar({
   darkMode,
@@ -20,28 +21,51 @@ export default function Navbar({
 }: NavbarProps) {
   const location = useLocation();
 
-  const getLinkClassName = (path: string) =>
-    `${navLinkClassName} ${location.pathname === path ? "text-accent" : ""}`;
+  const isActive = (path: string) => location.pathname === path;
+
+  const links = [
+    { path: "/", label: "About" },
+    { path: "/resume", label: "Resume" },
+    { path: "/projects", label: "Projects" },
+    { path: "/contact", label: "Contact" },
+  ];
 
   return (
-    <nav
+    <motion.nav
       ref={navRef}
-      className={`lg:rounded-2xl ${stuck ? "lg:rounded-tl-none lg:rounded-tr-none" : ""} lg:sticky lg:top-0 w-full bottom-0 flex items-center justify-between left-0 backdrop-blur-md p-4 bg-glass-bg border border-jet text-center lg:h-fit fixed rounded-tl-xl rounded-tr-xl shadow-soft text-sm md:text-base transition-all duration-300 ease-in-out md:px-15 z-1000`}
+      className={`lg:rounded-2xl ${
+        stuck ? "lg:rounded-tl-none lg:rounded-tr-none" : ""
+      } lg:sticky lg:top-0 w-full bottom-0 flex items-center justify-between left-0 backdrop-blur-md p-4 bg-glass-bg text-center lg:h-fit fixed rounded-tl-xl rounded-tr-xl shadow-soft text-sm md:text-base transition-all duration-300 ease-in-out md:px-15 z-1000`}
     >
-      <Link to="/" className={getLinkClassName("/")}>
-        About
-      </Link>
-      <Link to="/resume" className={getLinkClassName("/resume")}>
-        Resume
-      </Link>
-      <Link to="/projects" className={getLinkClassName("/projects")}>
-        Projects
-      </Link>
-      <Link to="/contact" className={getLinkClassName("/contact")}>
-        Contact
-      </Link>
+      {links.map((link) => (
+        <motion.div
+          key={link.path}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative"
+        >
+          <Link
+            to={link.path}
+            className={`${navLinkClassName} ${
+              isActive(link.path) ? "text-accent" : ""
+            }`}
+          >
+            {link.label}
+          </Link>
 
-      <ThemeSwitch checked={darkMode} onChange={onToggleDarkMode} />
-    </nav>
+          {isActive(link.path) && (
+            <motion.div
+              layoutId="activeLink"
+              className="absolute left-0 -bottom-1 h-0.5 w-full bg-accent rounded"
+            />
+          )}
+        </motion.div>
+      ))}
+
+      {/* Theme switch with subtle animation */}
+      <motion.div whileHover={{ rotate: 10 }} whileTap={{ scale: 0.9 }}>
+        <ThemeSwitch checked={darkMode} onChange={onToggleDarkMode} />
+      </motion.div>
+    </motion.nav>
   );
 }

@@ -11,7 +11,7 @@
       "email": "baxtiyorovdev@gmail.com",
       "phone": "+998 (94) 808-16-14",
       "location": "Qashqadaryo, UZ",
-      "birthday": "October 22, 2010",
+      "experience": "2+ Years",
       "telegram": "https://t.me/baxtiyorovdev",
       "github": "https://github.com/baxtiyorovdev",
       "instagram": "https://www.instagram.com/baxtiyorovdev"
@@ -128,7 +128,7 @@
       "description": "A simple restaurant application built with React, allowing users to browse menu items and place orders.",
       "image": "/images/dino-restaurant-photo.png",
       "link": "https://dino-restaurant.netlify.app/",
-      "technologies": ["Html", "CSS", "JavaScript"]
+      "technologies": ["HTML", "CSS", "JavaScript"]
     },
     {
       "id": 5,

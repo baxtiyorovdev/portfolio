@@ -1,46 +1,59 @@
-export type Social = {
+// About Section
+export interface SocialLinks {
   email: string;
   phone: string;
   location: string;
-  birthday: string;
+  experience: string;
   telegram: string;
   github: string;
   instagram: string;
-};
-export type About = {
+}
+
+export interface About {
   name: string;
   title: string;
   description: string;
+  about_job: string;
   image: string;
   tag: string;
-  social: Social;
-};
-export type EducationItem = {
+  languages: string[];
+  social: SocialLinks;
+}
+
+// Resume Section
+export interface Education {
   id: number;
   place: string;
   period: string;
   degree: string;
-};
-export type SkillLevel = "Advanced" | "Intermediate" | "Practicing";
-export type Skill = {
+}
+
+export interface Skill {
   name: string;
-  level: SkillLevel;
-};
-export type Resume = {
-  education: EducationItem[];
-  developer_education: EducationItem[];
+  level: "Advanced" | "Intermediate" | "Practicing" | string;
+}
+
+export interface Resume {
+  education: Education[];
+  developer_education: Education[];
   skills: Skill[];
-};
-export type Project = {
+}
+
+// Projects Section
+export interface Project {
   id: number;
   title: string;
   description: string;
   image: string;
   link?: string;
-  type?: "private";
-};
-export type PortfolioData = {
+  github?: string;
+  technologies: string[];
+  private?: boolean;
+}
+
+// Root Data Type
+export interface PortfolioData {
   about: About;
   resume: Resume;
   projects: Project[];
-};
+}
