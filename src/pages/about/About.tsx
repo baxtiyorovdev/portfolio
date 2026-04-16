@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Languages from "../../components/languages/Languages";
+import Education from "../../components/education/Education";
 import ProgLanguagesSmall from "../../components/prog-languages-small/ProgLanguagesSmall";
 import usePortfolioData from "../../hooks/usePortfolioData";
 
@@ -100,9 +101,13 @@ export default function About() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.7 }}
         >
-          <ProgLanguagesSmall skills={data.resume.skills} />
+          <ProgLanguagesSmall skills={data.resume.skills} showPreview />
         </motion.div>
       </motion.div>
+      <Education
+        education={data.resume.education}
+        developer_education={data.resume.developer_education}
+      />
     </motion.div>
   );
 }

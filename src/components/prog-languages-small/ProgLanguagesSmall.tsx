@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { Skill } from "../../types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   FaHtml5,
@@ -15,6 +16,7 @@ import { SiTypescript, SiNextdotjs, SiRedux } from "react-icons/si";
 
 type Props = {
   skills: Skill[];
+  showPreview?: boolean; // 👈 NEW
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -44,7 +46,9 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export default function SkillsPage({ skills }: Props) {
+export default function SkillsPage({ skills, showPreview }: Props) {
+  const displayedSkills = showPreview ? skills.slice(0, 5) : skills;
+
   return (
     <motion.div
       className="text-white2"
@@ -60,7 +64,7 @@ export default function SkillsPage({ skills }: Props) {
         className="grid sm:grid-cols-2 md:grid-cols-3 gap-4"
         variants={container}
       >
-        {skills.map((skill, i) => (
+        {displayedSkills.map((skill, i) => (
           <motion.div
             key={i}
             variants={item}
@@ -79,7 +83,6 @@ export default function SkillsPage({ skills }: Props) {
               </div>
             </div>
 
-            {/* subtle animated bar */}
             <div className="mt-3 h-1 w-full bg-jet rounded overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
@@ -97,6 +100,22 @@ export default function SkillsPage({ skills }: Props) {
             </div>
           </motion.div>
         ))}
+
+        {/* 👇 SEE MORE CARD */}
+        {showPreview && (
+          <motion.div
+            variants={item}
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center justify-center p-4 rounded-xl2 bg-glass-bg backdrop-blur-md shadow-soft"
+          >
+            <Link
+              to="/skills"
+              className="text-accent font-semibold text-center"
+            >
+              See more →
+            </Link>
+          </motion.div>
+        )}
       </motion.div>
     </motion.div>
   );

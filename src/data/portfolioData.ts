@@ -15,7 +15,7 @@ export const portfolioData: PortfolioData = {
       email: "baxtiyorovdev@gmail.com",
       phone: "+998 (94) 808-16-14",
       location: "Qashqadaryo, UZ",
-      experience: "October 22, 2010",
+      experience: "2+ Years",
       telegram: "https://t.me/baxtiyorovdev",
       github: "https://github.com/baxtiyorovdev",
       instagram: "https://www.instagram.com/baxtiyorovdev",
@@ -51,7 +51,7 @@ export const portfolioData: PortfolioData = {
     developer_education: [
       {
         id: 1,
-        place: "Frontend Development Course, Open Web Academy (Qashqadaryo)",
+        place: "Frontend Development Course, Open Web Academy",
         period: "2024-2025",
         degree: "Certificate",
       },
