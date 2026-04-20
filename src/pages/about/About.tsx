@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import Languages from "../../components/languages/Languages";
-import Education from "../../components/education/Education";
-import ProgLanguagesSmall from "../../components/prog-languages-small/ProgLanguagesSmall";
+import Projects from "../../components/projects/Projects";
+import ProgLanguagesSmall from "../../components/skills/Skills";
+import PageHeader from "../../components/ui/PageHeader";
+import SectionTitle from "../../components/ui/SectionTitle";
 import usePortfolioData from "../../hooks/usePortfolioData";
 
 export default function About() {
@@ -14,26 +16,8 @@ export default function About() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* TITLE */}
-      <motion.h1
-        className="text-3xl font-bold mb-4"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        About Me
-      </motion.h1>
+      <PageHeader title="About Me" underlineSpacingClassName="mb-4" />
 
-      {/* ACCENT LINE */}
-      <motion.div
-        className="w-12 h-1.5 rounded-2xl bg-accent mb-4"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 0.2, duration: 0.35 }}
-        style={{ originX: 0 }}
-      />
-
-      {/* DESCRIPTION */}
       <motion.p
         className="mb-4"
         key={data.about.description}
@@ -44,7 +28,6 @@ export default function About() {
         {data.about.description}
       </motion.p>
 
-      {/* JOB INFO */}
       <motion.p
         className="mb-6"
         key={data.about.about_job}
@@ -55,21 +38,19 @@ export default function About() {
         {data.about.about_job}
       </motion.p>
 
-      {/* LANGUAGES SECTION */}
       <motion.div
         className="mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.4 }}
       >
-        <motion.h3
-          className="text-2xl font-bold mb-4"
+        <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.45 }}
         >
-          Languages
-        </motion.h3>
+          <SectionTitle title="Languages" />
+        </motion.div>
 
         <motion.p
           className="mb-4"
@@ -90,24 +71,20 @@ export default function About() {
         </motion.div>
       </motion.div>
 
-      {/* SKILLS SECTION */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.65, duration: 0.4 }}
       >
-        <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.7 }}
-        >
-          <ProgLanguagesSmall skills={data.resume.skills} showPreview />
-        </motion.div>
+        <Projects projects={data.projects} showPreview/>
       </motion.div>
-      <Education
-        education={data.resume.education}
-        developer_education={data.resume.developer_education}
-      />
+      <motion.div
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.7 }}
+      >
+        <ProgLanguagesSmall skills={data.resume.skills} showPreview />
+      </motion.div>
     </motion.div>
   );
 }

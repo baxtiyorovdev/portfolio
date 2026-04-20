@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import SectionTitle from "../ui/SectionTitle";
 
 type EducationItem = {
   id: number;
@@ -16,8 +17,8 @@ const Education = ({ education, developer_education }: Props) => {
   const data = [...education, ...developer_education];
 
   return (
-    <section className="py-10">
-      <h2 className="text-3xl font-bold mb-8">Education</h2>
+    <section className="mb-8">
+      <SectionTitle title="Education" className="mb-8 text-3xl font-bold" />
 
       <div className="relative border-l border-jet ml-4">
         <span className="absolute -left-2 bottom-0 w-4 h-4 bg-accent rounded-full border-4 border-jet"></span>

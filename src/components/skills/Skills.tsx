@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { Skill } from "../../types";
 import React from "react";
 import { Link } from "react-router-dom";
+import SectionTitle from "../ui/SectionTitle";
 
 import {
   FaHtml5,
@@ -46,7 +47,7 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export default function SkillsPage({ skills, showPreview }: Props) {
+export default function Skills({ skills, showPreview }: Props) {
   const displayedSkills = showPreview ? skills.slice(0, 5) : skills;
 
   return (
@@ -56,9 +57,9 @@ export default function SkillsPage({ skills, showPreview }: Props) {
       animate="show"
       variants={container}
     >
-      <motion.h1 className="text-3xl font-bold mb-6" variants={item}>
-        Skills
-      </motion.h1>
+      <motion.div variants={item}>
+        <SectionTitle title="Skills" className="mb-6 text-3xl font-bold" />
+      </motion.div>
 
       <motion.div
         className="grid sm:grid-cols-2 md:grid-cols-3 gap-4"
@@ -101,7 +102,6 @@ export default function SkillsPage({ skills, showPreview }: Props) {
           </motion.div>
         ))}
 
-        {/* 👇 SEE MORE CARD */}
         {showPreview && (
           <motion.div
             variants={item}
@@ -109,7 +109,7 @@ export default function SkillsPage({ skills, showPreview }: Props) {
             className="flex items-center justify-center p-4 rounded-xl2 bg-glass-bg backdrop-blur-md shadow-soft"
           >
             <Link
-              to="/skills"
+              to="/resume"
               className="text-accent font-semibold text-center"
             >
               See more →

@@ -105,18 +105,33 @@ export const portfolioData: PortfolioData = {
       title: "Dictionary App",
       description:
         "A simple dictionary app built with React, featuring search functionality and word definitions.",
-      image: "/images/dictionary-photo.png",
+      details:
+        "This project focuses on fast search, clean typography, and a simple interface for reading definitions. It helped me practice API handling, component composition, and building a responsive layout.",
+      image: "/images/dictionary-2.png",
+      gallery: [
+        "/images/dictionary-1.png",
+        "/images/dictionary-2.png",
+        "/images/dictionary-3.png",
+      ],
       link: "https://splendid-figolla-2968a8.netlify.app/",
-      github: "https://github.com/baxtiyorovdev/dictionary-app",
-      technologies: ["React", "CSS", "HTML", "JavaScript"],
+      github: "https://github.com/baxtiyorovdev/dictionary",
+      technologies: ["CSS", "HTML", "JavaScript"],
     },
     {
       id: 2,
       title: "Github User Finder",
       description:
         "A simple application that allows users to search for and view information about GitHub users.",
-      image: "/images/github-photo.png",
+      details:
+        "The app lets users search profiles and review profile data in a focused card layout. I used this project to improve form state handling, async fetch flows, and polished UI feedback.",
+      image: "/images/github-finder-1.png",
+      gallery: [
+        "/images/github-finder-1.png",
+        "/images/github-finder-2.png",
+        "/images/github-finder-3.png",
+      ],
       link: "https://github-accout-finder.netlify.app/",
+      github: "https://github.com/baxtiyorovdev/githubusersearch",
       technologies: ["React", "CSS", "HTML", "JavaScript"],
     },
     {
@@ -124,17 +139,33 @@ export const portfolioData: PortfolioData = {
       title: "Movie Entertainment",
       description:
         "A movie application that allows users to search for and view information about movies.",
-      image: "/images/movie-photo.png",
+      details:
+        "This interface is centered around browsing movie content, search, and visually rich cards. It gave me experience working with media-heavy layouts, reusable sections, and responsive design decisions.",
+      image: "/images/movie-1.png",
+      gallery: [
+        "/images/movie-1.png",
+        "/images/movie-2.png",
+        "/images/movie-3.png",
+      ],
       link: "https://movie-erntartainment.netlify.app/",
+      github: "https://github.com/baxtiyorovdev/Movie-Entertainment",
       technologies: ["React", "CSS", "HTML", "JavaScript"],
     },
     {
       id: 4,
-      title: "Dino Restaurant",
+      title: "Dine Restaurant",
       description:
         "A simple restaurant application built with React, allowing users to browse menu items and place orders.",
-      image: "/images/dino-restaurant-photo.png",
-      link: "https://dino-restaurant.netlify.app/",
+      details:
+        "The restaurant concept focuses on menu presentation, product browsing, and a friendly ordering experience. I used it to practice cleaner card layouts, page sections, and interactive UI states.",
+      image: "/images/dine-restaurant-1.png",
+      gallery: [
+        "/images/dine-restaurant-1.png",
+        "/images/dine-restaurant-2.png",
+        "/images/dine-restaurant-3.png",
+      ],
+      link: "https://dine-restaurant.netlify.app/",
+      github: "https://github.com/baxtiyorovdev/dinorestaurant",
       technologies: ["Html", "CSS", "JavaScript"],
     },
     {
@@ -142,7 +173,14 @@ export const portfolioData: PortfolioData = {
       title: "POS System",
       description:
         "A simple point-of-sale system for managing sales and inventory.",
+      details:
+        "This project is a more advanced private system for sales flow, inventory, and dashboard-style management. It helped me work with a stronger architecture, typed flows, and backend-connected UI patterns.",
       image: "/images/pos-system-photo.png",
+      gallery: [
+        "/images/pos-system-photo.png",
+        "/images/dictionary-photo.png",
+        "/images/dino-restaurant.png",
+      ],
       technologies: [
         "Next.js",
         "CSS",

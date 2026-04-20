@@ -44,7 +44,9 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  details?: string;
   image: string;
+  gallery?: string[];
   link?: string;
   github?: string;
   technologies: string[];
