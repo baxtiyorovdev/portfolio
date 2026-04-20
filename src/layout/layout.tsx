@@ -68,9 +68,9 @@ export default function MainLayout() {
           onToggleDarkMode={() => setDarkMode((prev) => !prev)}
         />
 
-        <section className="h-full backdrop-blur-md bg-glass-bg z-10 rounded-xl2 p-6 shadow-card">
+        <main className="h-full backdrop-blur-md bg-glass-bg z-10 rounded-xl2 p-6 shadow-card">
           <Outlet />
-        </section>
+        </main>
       </section>
 
       <BackgroundEffects />

@@ -10,7 +10,7 @@ export default function PageHeader({
   underlineSpacingClassName = "mb-8",
 }: Props) {
   return (
-    <>
+    <motion.header>
       <motion.h1
         className="mb-4 text-3xl font-bold"
         initial={{ opacity: 0, y: 10 }}
@@ -27,6 +27,6 @@ export default function PageHeader({
         transition={{ delay: 0.2, duration: 0.35 }}
         style={{ originX: 0 }}
       />
-    </>
+    </motion.header>
   );
 }
