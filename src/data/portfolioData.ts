@@ -8,7 +8,7 @@ export const portfolioData: PortfolioData = {
       "Front End Developer skilled in building responsive and modern web applications using HTML, CSS, JavaScript, and React. Focused on clean UI, performance, and user experience. Continuously learning and improving with modern technologies.",
     about_job:
       "Looking for opportunities to work on real-world projects, collaborate with developers, and grow as a Front End Engineer. Open to internships, freelance work, and junior positions.",
-    image: "/illustrations/avatar-1.png",
+    image: "/illustrations/avatar.png",
     tag: "Web Developer",
     languages: ["English", "Russian", "Uzbek"],
     social: {
@@ -175,11 +175,11 @@ export const portfolioData: PortfolioData = {
         "A simple point-of-sale system for managing sales and inventory.",
       details:
         "This project is a more advanced private system for sales flow, inventory, and dashboard-style management. It helped me work with a stronger architecture, typed flows, and backend-connected UI patterns.",
-      image: "/images/pos-system-photo.png",
+      image: "/images/pos-system-1.png",
       gallery: [
-        "/images/pos-system-photo.png",
-        "/images/dictionary-photo.png",
-        "/images/dino-restaurant.png",
+        "/images/pos-system-1.png",
+        "/images/pos-system-2.png",
+        "/images/pos-system-3.png",
       ],
       technologies: [
         "Next.js",
