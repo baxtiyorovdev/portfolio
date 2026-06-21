@@ -1,0 +1,366 @@
+@import "tailwindcss";
+
+/* Class-based dark mode, driven by next-themes (attribute="class") */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Animatable angle used by the gradient borders */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* ---------------------------------------------------------------------------
+   Design tokens — "Refined gold / amber"
+   Dark is the primary experience; light is a warm ivory counterpart.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --background: hsl(40 38% 96%);
+  --background-2: hsl(38 34% 92%);
+  --surface: hsl(40 55% 99.5%);
+  --surface-2: hsl(40 30% 96%);
+  --foreground: hsl(28 16% 12%);
+  --muted: hsl(30 8% 36%);
+  --muted-2: hsl(30 6% 52%);
+  --border: hsl(30 25% 18% / 0.12);
+  --border-strong: hsl(30 25% 18% / 0.22);
+
+  --accent: hsl(36 92% 45%);
+  --accent-2: hsl(27 88% 47%);
+  --accent-3: hsl(44 96% 50%);
+  --accent-foreground: hsl(40 60% 98%);
+  --on-accent: hsl(30 55% 10%);
+  --ring: hsl(36 92% 45% / 0.5);
+
+  --glass-bg: hsl(40 55% 100% / 0.55);
+  --glass-border: hsl(36 40% 28% / 0.14);
+  --glass-highlight: hsl(40 60% 100% / 0.6);
+
+  --grad-gold: linear-gradient(135deg, hsl(44 96% 54%), hsl(36 92% 48%) 45%, hsl(25 86% 45%));
+  --grad-sheen: linear-gradient(120deg, transparent, hsl(40 80% 70% / 0.4), transparent);
+
+  --shadow-soft: 0 2px 10px hsl(30 30% 20% / 0.06), 0 10px 30px hsl(30 30% 20% / 0.08);
+  --shadow-card: 0 12px 40px hsl(30 30% 15% / 0.13);
+  --shadow-glow: 0 0 0 1px hsl(36 92% 45% / 0.16), 0 14px 44px hsl(36 92% 45% / 0.2);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: hsl(30 11% 4.5%);
+  --background-2: hsl(28 12% 6.5%);
+  --surface: hsl(32 9% 8.5%);
+  --surface-2: hsl(32 8% 12.5%);
+  --foreground: hsl(40 30% 96%);
+  --muted: hsl(38 11% 67%);
+  --muted-2: hsl(36 8% 46%);
+  --border: hsl(40 30% 88% / 0.1);
+  --border-strong: hsl(40 30% 88% / 0.2);
+
+  --accent: hsl(42 96% 62%);
+  --accent-2: hsl(32 95% 56%);
+  --accent-3: hsl(48 100% 72%);
+  --accent-foreground: hsl(30 45% 8%);
+  --on-accent: hsl(30 55% 8%);
+  --ring: hsl(42 96% 62% / 0.55);
+
+  --glass-bg: hsl(40 40% 90% / 0.045);
+  --glass-border: hsl(42 70% 80% / 0.12);
+  --glass-highlight: hsl(45 85% 85% / 0.14);
+
+  --grad-gold: linear-gradient(135deg, hsl(48 100% 72%), hsl(42 96% 62%) 42%, hsl(30 92% 52%));
+  --grad-sheen: linear-gradient(120deg, transparent, hsl(45 100% 80% / 0.18), transparent);
+
+  --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.4), 0 16px 40px hsl(0 0% 0% / 0.45);
+  --shadow-card: 0 18px 50px hsl(0 0% 0% / 0.5);
+  --shadow-glow: 0 0 0 1px hsl(42 96% 62% / 0.18), 0 16px 50px hsl(42 96% 62% / 0.22);
+}
+
+/* ---------------------------------------------------------------------------
+   Tailwind theme bindings (inline → utilities resolve the live CSS vars,
+   so light/dark switching is instant)
+--------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-background-2: var(--background-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-on-accent: var(--on-accent);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jet), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-xl2: 1.75rem;
+  --radius-xl3: 2.25rem;
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-card: var(--shadow-card);
+  --shadow-glow: var(--shadow-glow);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: hsl(42 96% 62% / 0.28);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components / reusable surfaces & effects
+--------------------------------------------------------------------------- */
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card), inset 0 1px 0 0 var(--glass-highlight);
+  }
+
+  .glass-soft {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid var(--glass-border);
+  }
+
+  .gradient-text {
+    background-image: var(--grad-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Animated gold gradient ring (mask-composite keeps the centre transparent) */
+  .gradient-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--border-angle),
+      transparent 10%,
+      var(--accent-3),
+      var(--accent),
+      var(--accent-2),
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-rotate 6s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Cursor-following radial glow; JS sets --mx / --my */
+  .spotlight {
+    position: relative;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 0%),
+      hsl(42 96% 62% / 0.16),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 58px 58px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: var(--grad-sheen);
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------------------- */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .perspective {
+    perspective: 1200px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Keyframes
+--------------------------------------------------------------------------- */
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@keyframes aurora {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(4%, -6%, 0) scale(1.12); }
+  66% { transform: translate3d(-5%, 4%, 0) scale(0.94); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes draw-line {
+  0% { stroke-dashoffset: 1; }
+  72% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+@keyframes scroll-cue {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+
+.animate-aurora { animation: aurora 18s ease-in-out infinite; }
+.animate-float-y { animation: float-y 7s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 22s linear infinite; }
+.animate-marquee { animation: marquee 38s linear infinite; }
+.animate-marquee-rev { animation: marquee-rev 38s linear infinite; }
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
