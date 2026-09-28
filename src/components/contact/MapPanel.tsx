@@ -3,14 +3,15 @@ import { BentoCard } from "@/components/bento/BentoCard";
 import { contactConfig } from "@/lib/portfolio";
 import type { About } from "@/types";
 
+/** City-level map (no exact address) — see contactConfig. */
 export function MapPanel({ about }: { about: About }) {
-  const mapQuery = encodeURIComponent(`${contactConfig.lat},${contactConfig.lng}`);
-  const src = `https://www.google.com/maps?q=${contactConfig.lat},${contactConfig.lng}&z=15&output=embed`;
+  const mapQuery = encodeURIComponent(contactConfig.mapQuery);
+  const src = `https://www.google.com/maps?q=${mapQuery}&z=${contactConfig.zoom}&output=embed`;
 
   return (
     <BentoCard aria-label="Location map" className="overflow-hidden p-2">
       <iframe
-        title="Google map"
+        title={`Map of ${contactConfig.mapQuery}`}
         src={src}
         loading="lazy"
         allowFullScreen
@@ -22,7 +23,7 @@ export function MapPanel({ about }: { about: About }) {
         <p className="text-xs font-medium text-muted">{about.title}</p>
         <p className="mt-2 flex items-center gap-2 text-xs font-medium text-muted">
           <RiMapPin2Fill aria-hidden className="size-3.5 shrink-0 text-primary" />
-          {contactConfig.coordsLabel}
+          {contactConfig.label}
         </p>
         <a
           href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
