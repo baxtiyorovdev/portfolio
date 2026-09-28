@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RiBriefcase4Fill, RiGithubFill } from "react-icons/ri";
+import { PageHeader, PageShell } from "@/components/layout/PageShell";
+import { ActionButton } from "@/components/bento/Primitives";
 import { ProjectsView } from "@/components/projects/ProjectsView";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { about } from "@/lib/portfolio";
 import {
   breadcrumbSchema,
   projectsCollectionSchema,
@@ -25,21 +27,24 @@ export default function ProjectsPage() {
         ])}
       />
       <JsonLd data={projectsCollectionSchema} />
-      <Section className="pt-32 sm:pt-40" ariaLabelledby="projects-heading">
-      <SectionHeading
-        id="projects-heading"
-        kicker="Portfolio"
-        title={
-          <>
-            Things I&apos;ve <span className="gradient-text">built</span>.
-          </>
-        }
-        description="A selection of frontend and full-stack work. Tap any card for the gallery, stack and links."
-      />
-      <div className="mt-12">
+      <PageShell>
+        <PageHeader
+          icon={RiBriefcase4Fill}
+          label="Projects"
+          title={
+            <>
+              Works <span className="text-primary">Gallery</span>
+            </>
+          }
+          description="A selection of frontend and full-stack work. Open any card for the gallery, stack and links."
+          actions={
+            <ActionButton href={about.social.github} icon={RiGithubFill} className="px-6">
+              More on GitHub
+            </ActionButton>
+          }
+        />
         <ProjectsView />
-      </div>
-      </Section>
+      </PageShell>
     </>
   );
 }

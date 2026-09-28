@@ -1,51 +1,36 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { FiHome } from "react-icons/fi";
-import { Button } from "@/components/ui/Button";
-import { easeOutExpo } from "@/lib/motion";
+import { RiBriefcase4Fill, RiCompass3Fill, RiHome5Fill } from "react-icons/ri";
+import { BentoCard } from "@/components/bento/BentoCard";
+import { ActionButton, PrimaryButton } from "@/components/bento/Primitives";
 
 export default function NotFound() {
   return (
-    <section className="relative mx-auto flex min-h-[100svh] max-w-3xl flex-col items-center justify-center px-5 text-center">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 grid place-items-center"
-      >
-        <div className="h-[420px] w-[420px] rounded-full border border-border animate-spin-slow" />
-        <div className="absolute h-[300px] w-[300px] rounded-full border border-border/60" />
-        <div
-          className="absolute h-56 w-56 rounded-full opacity-40 blur-[80px]"
-          style={{ background: "radial-gradient(circle, var(--accent), transparent 70%)" }}
+    <main className="grid min-h-dvh place-items-center px-4 py-10">
+      <BentoCard className="w-full max-w-md items-center gap-6 overflow-hidden px-6 py-10 text-center" reveal={false}>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-[-80px] size-[260px] -translate-x-1/2 rounded-full bg-primary/15 blur-[80px]"
         />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: easeOutExpo }}
-        className="relative"
-      >
-        <p className="font-mono text-xs uppercase tracking-[0.4em] text-accent">
-          Signal lost
-        </p>
-        <h1 className="mt-4 text-7xl font-bold sm:text-9xl">
-          <span className="gradient-text">404</span>
-        </h1>
-        <h2 className="mt-2 text-2xl font-semibold">Page not found</h2>
-        <p className="mx-auto mt-4 max-w-md text-muted">
-          The page you&apos;re looking for drifted out of orbit or never existed
-          here. Let&apos;s get you back on track.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button href="/" icon={<FiHome />}>
-            Back home
-          </Button>
-          <Button href="/projects" variant="secondary">
-            View projects
-          </Button>
+        <span className="relative grid size-[65px] place-items-center rounded-full bg-icon">
+          <RiCompass3Fill aria-hidden className="size-7 text-primary" />
+        </span>
+        <div className="relative flex flex-col items-center gap-2">
+          <p className="text-[64px] font-semibold leading-none tracking-tight text-muted">
+            4<span className="text-primary">0</span>4
+          </p>
+          <h1 className="text-xl font-semibold text-fg">Page not found</h1>
+          <p className="max-w-xs text-sm font-medium leading-relaxed text-muted">
+            The page you&apos;re looking for drifted off the grid or never existed here.
+          </p>
         </div>
-      </motion.div>
-    </section>
+        <div className="relative flex w-full flex-col gap-3 sm:flex-row">
+          <PrimaryButton href="/" className="flex-1">
+            <RiHome5Fill aria-hidden className="size-4" /> Back home
+          </PrimaryButton>
+          <ActionButton href="/projects" icon={RiBriefcase4Fill}>
+            View projects
+          </ActionButton>
+        </div>
+      </BentoCard>
+    </main>
   );
 }

@@ -1,18 +1,15 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FiCheckCircle, FiAlertCircle, FiSend } from "react-icons/fi";
-import { Button } from "@/components/ui/Button";
+import { RiCheckboxCircleFill, RiErrorWarningFill, RiSendPlaneFill } from "react-icons/ri";
+import { PrimaryButton } from "@/components/bento/Primitives";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-const labelBase =
-  "pointer-events-none absolute left-4 text-sm text-muted transition-all duration-200 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:text-xs";
-
-const fieldBase =
-  "peer w-full rounded-2xl border border-border bg-surface-2/40 px-4 text-foreground placeholder-transparent outline-none transition focus:border-accent focus:ring-2 focus:ring-ring";
+const labelClass = "text-[13px] font-medium text-muted";
+const fieldClass =
+  "w-full rounded-tile border border-line bg-surface px-4 text-sm font-medium text-fg placeholder:text-[#5f5f5f] outline-none transition-colors duration-200 hover:border-line-strong focus:border-primary focus:ring-2 focus:ring-primary/30";
 
 const initialForm = { name: "", email: "", message: "", website: "" };
 
@@ -21,9 +18,7 @@ export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
 
-  function update(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
+  function update(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   }
 
@@ -48,82 +43,54 @@ export function ContactForm() {
       setForm(initialForm);
     } catch (caught) {
       setStatus("error");
-      setError(
-        caught instanceof Error ? caught.message : "Something went wrong.",
-      );
+      setError(caught instanceof Error ? caught.message : "Something went wrong.");
     }
   }
 
   const sending = status === "sending";
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="relative">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 p-5 sm:p-6" noValidate>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="flex flex-col gap-2">
+          <span className={labelClass}>Full name</span>
           <input
-            id="name"
             name="name"
-            placeholder=" "
+            autoComplete="name"
+            placeholder="Your name"
             required
             value={form.name}
             onChange={update}
-            className={cn(fieldBase, "h-14 pt-4")}
+            className={cn(fieldClass, "h-12")}
           />
-          <label
-            htmlFor="name"
-            className={cn(
-              labelBase,
-              "top-1/2 -translate-y-1/2 peer-focus:top-3 peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:translate-y-0",
-            )}
-          >
-            Full name
-          </label>
-        </div>
-
-        <div className="relative">
+        </label>
+        <label className="flex flex-col gap-2">
+          <span className={labelClass}>Email address</span>
           <input
-            id="email"
             name="email"
             type="email"
-            placeholder=" "
+            autoComplete="email"
+            placeholder="you@example.com"
             required
             value={form.email}
             onChange={update}
-            className={cn(fieldBase, "h-14 pt-4")}
+            className={cn(fieldClass, "h-12")}
           />
-          <label
-            htmlFor="email"
-            className={cn(
-              labelBase,
-              "top-1/2 -translate-y-1/2 peer-focus:top-3 peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:translate-y-0",
-            )}
-          >
-            Email address
-          </label>
-        </div>
+        </label>
       </div>
 
-      <div className="relative">
+      <label className="flex flex-col gap-2">
+        <span className={labelClass}>Your message</span>
         <textarea
-          id="message"
           name="message"
-          rows={6}
-          placeholder=" "
+          rows={7}
+          placeholder="Tell me about your project, timeline and goals…"
           required
           value={form.message}
           onChange={update}
-          className={cn(fieldBase, "resize-none pb-3 pt-7")}
+          className={cn(fieldClass, "resize-none py-3 leading-relaxed")}
         />
-        <label
-          htmlFor="message"
-          className={cn(
-            labelBase,
-            "top-4 peer-focus:top-2.5 peer-[:not(:placeholder-shown)]:top-2.5",
-          )}
-        >
-          Your message
-        </label>
-      </div>
+      </label>
 
       {/* Honeypot — hidden from humans, catches bots. */}
       <input
@@ -137,45 +104,33 @@ export function ContactForm() {
         className="absolute left-[-9999px] h-0 w-0 opacity-0"
       />
 
-      <div className="flex flex-wrap items-center gap-4">
-        <Button type="submit" size="lg" magnetic disabled={sending}>
+      <div className="flex flex-wrap items-center gap-4 pt-1">
+        <PrimaryButton type="submit" disabled={sending}>
           {sending ? (
             <>
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-on-accent/40 border-t-on-accent" />
+              <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
               Sending…
             </>
           ) : (
             <>
-              <FiSend />
+              <RiSendPlaneFill aria-hidden className="size-4" />
               Send message
             </>
           )}
-        </Button>
+        </PrimaryButton>
 
-        <AnimatePresence mode="wait">
+        <p role="status" aria-live="polite" className="text-sm font-medium">
           {status === "success" && (
-            <motion.p
-              key="success"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center gap-2 text-sm text-emerald-400"
-            >
-              <FiCheckCircle /> Message sent — I&apos;ll get back to you soon.
-            </motion.p>
+            <span className="flex animate-[fade-up_0.4s_ease-out] items-center gap-2 text-[#34c759]">
+              <RiCheckboxCircleFill aria-hidden /> Message sent — I&apos;ll get back to you soon.
+            </span>
           )}
           {status === "error" && (
-            <motion.p
-              key="error"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center gap-2 text-sm text-red-400"
-            >
-              <FiAlertCircle /> {error}
-            </motion.p>
+            <span className="flex animate-[fade-up_0.4s_ease-out] items-center gap-2 text-[#ff6b6b]">
+              <RiErrorWarningFill aria-hidden /> {error}
+            </span>
           )}
-        </AnimatePresence>
+        </p>
       </div>
     </form>
   );

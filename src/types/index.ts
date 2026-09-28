@@ -15,7 +15,12 @@ export interface About {
   description: string;
   about_job: string;
   image: string;
+  /** Transparent cut-out used on the violet profile tile. */
+  avatar: string;
   tag: string;
+  /** Rotating roles in the "I'm a …" line. */
+  roles: string[];
+  timezone: string;
   languages: string[];
   social: SocialLinks;
 }
@@ -53,9 +58,35 @@ export interface Project {
   private?: boolean;
 }
 
+// Home bento content
+export type ServiceIcon =
+  | "code"
+  | "responsive"
+  | "layout"
+  | "api"
+  | "speed"
+  | "motion";
+
+export interface Service {
+  name: string;
+  icon: ServiceIcon;
+}
+
+export type ProcessIcon = "discover" | "plan" | "build" | "test" | "launch";
+
+export interface ProcessStep {
+  title: string;
+  description: string;
+  icon: ProcessIcon;
+}
+
 // Root Data Type
 export interface PortfolioData {
   about: About;
   resume: Resume;
   projects: Project[];
+  /** Skill names (from resume.skills) highlighted in the "My Stacks" card. */
+  featuredStack: string[];
+  services: Service[];
+  workflow: ProcessStep[];
 }

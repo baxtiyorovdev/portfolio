@@ -9,7 +9,10 @@ export const portfolioData: PortfolioData = {
     about_job:
       "Looking for opportunities to work on real-world projects, collaborate with developers, and grow as a Front End Engineer. Open to internships, freelance work, and junior positions.",
     image: "/illustrations/avatar.png",
+    avatar: "/illustrations/avatar-1.png",
     tag: "Web Developer",
+    roles: ["Front End Developer", "React Developer", "Web Developer", "UI Developer"],
+    timezone: "GMT+5",
     languages: ["English", "Russian", "Uzbek"],
     social: {
       email: "baxtiyorovdev@gmail.com",
@@ -190,6 +193,42 @@ export const portfolioData: PortfolioData = {
         "PostgreSQL",
       ],
       private: true,
+    },
+  ],
+  featuredStack: ["React", "Next.js", "TypeScript", "Node.js"],
+  services: [
+    { name: "Web Development", icon: "code" },
+    { name: "Responsive Design", icon: "responsive" },
+    { name: "Landing Pages", icon: "layout" },
+    { name: "API Integration", icon: "api" },
+    { name: "Performance Tuning", icon: "speed" },
+    { name: "UI Animation", icon: "motion" },
+  ],
+  workflow: [
+    {
+      title: "Discovery",
+      description: "Clarifying goals, users and scope before writing any code.",
+      icon: "discover",
+    },
+    {
+      title: "Planning",
+      description: "Breaking the UI into components, data flow and milestones.",
+      icon: "plan",
+    },
+    {
+      title: "Development",
+      description: "Building responsive, accessible interfaces with React & Next.js.",
+      icon: "build",
+    },
+    {
+      title: "Testing",
+      description: "Cross-browser checks, performance audits and bug fixing.",
+      icon: "test",
+    },
+    {
+      title: "Launch",
+      description: "Deploying, monitoring and iterating on real feedback.",
+      icon: "launch",
     },
   ],
 };

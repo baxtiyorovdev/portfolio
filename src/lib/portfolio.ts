@@ -2,10 +2,8 @@ import { portfolioData } from "@/data/portfolioData";
 import type { Project } from "@/types";
 
 export const portfolio = portfolioData;
-export const { about, resume, projects } = portfolioData;
-
-/** Featured subset shown on the home page. */
-export const featuredProjects = projects.slice(0, 3);
+export const { about, resume, projects, featuredStack, services, workflow } =
+  portfolioData;
 
 /** Human label for a project, derived from its tech + visibility. */
 export function getProjectCategory(project: Project): string {
@@ -43,6 +41,39 @@ export const educationTimeline = [
   ...resume.education,
   ...resume.developer_education,
 ];
+
+/** Headline numbers for the rolling counters — all derived from real data. */
+export const stats = {
+  projects: projects.length,
+  technologies: resume.skills.length,
+  years: Number.parseInt(about.social.experience, 10) || 1,
+};
+
+/**
+ * Every distinct technology across skills and projects, in skill order first.
+ * Case-insensitive so "Html" and "HTML" collapse into one entry.
+ */
+export const allTechnologies: string[] = (() => {
+  const seen = new Map<string, string>();
+  const names = [
+    ...resume.skills.map((skill) => skill.name),
+    ...projects.flatMap((project) => project.technologies),
+  ];
+  for (const name of names) {
+    const key = name.toLowerCase();
+    if (!seen.has(key)) seen.set(key, name);
+  }
+  return [...seen.values()];
+})();
+
+/** Short name of the latest developer course provider (e.g. "Open Web Academy"). */
+export const latestSchool =
+  resume.developer_education.at(-1)?.place.split(",").at(-1)?.trim() ??
+  resume.education.at(-1)?.place ??
+  "";
+
+export const phoneHref = `tel:${about.social.phone.replace(/[^\d+]/g, "")}`;
+export const emailHref = `mailto:${about.social.email}`;
 
 /** Contact map configuration (Google Maps embed). */
 export const contactConfig = {

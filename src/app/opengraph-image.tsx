@@ -21,8 +21,8 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0c0a08",
-          color: "#f7f1e6",
+          background: "#050505",
+          color: "#e6e6e6",
           padding: 80,
           position: "relative",
           fontFamily: "sans-serif",
@@ -36,7 +36,7 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             background:
-              "radial-gradient(circle, rgba(245,185,66,0.4), rgba(245,185,66,0))",
+              "radial-gradient(circle, rgba(145,108,231,0.45), rgba(145,108,231,0))",
           }}
         />
 
@@ -53,7 +53,7 @@ export default function OpengraphImage() {
               fontSize: 26,
               letterSpacing: 8,
               textTransform: "uppercase",
-              color: "#c2b79f",
+              color: "#999999",
             }}
           >
             Front End Developer
@@ -64,7 +64,7 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02 }}>
             Baxtiyorov Shaxriyor
           </div>
-          <div style={{ fontSize: 38, color: "#c2b79f", maxWidth: 940 }}>
+          <div style={{ fontSize: 38, color: "#999999", maxWidth: 940 }}>
             Building clean, fast &amp; modern web interfaces.
           </div>
         </div>
@@ -75,10 +75,10 @@ export default function OpengraphImage() {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 28,
-            color: "#c2b79f",
+            color: "#999999",
           }}
         >
-          <div style={{ color: "#f5b942" }}>baxtiyorov.dev</div>
+          <div style={{ color: "#916ce7" }}>baxtiyorov.dev</div>
           <div>React · Next.js · TypeScript</div>
         </div>
       </div>

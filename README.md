@@ -1,22 +1,31 @@
 # Baxtiyorov Shaxriyor — Portfolio
 
-A premium, animation-rich personal portfolio built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS v4**, **Framer Motion** and **GSAP**. Warm gold/amber design system with dark (primary) and light themes, glassmorphism, animated gradient borders, 3D tilt cards and cinematic scroll effects.
+A bento-grid personal portfolio built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS v4** and **GSAP**, implemented from the [Bento Grid Portfolio](https://www.figma.com/design/Qwd0sttv5MT6i4CavVwX7e/Bento-Grid-Portfolio--Community-) Figma design: a dark, violet-accented one-screen dashboard on desktop that re-flows into a stacked bento on tablet and mobile.
 
 ## Tech stack
 
 - **Next.js 15** (App Router, React 19, RSC + client islands)
-- **Tailwind CSS v4** (CSS-first `@theme`, class-based dark mode)
-- **Framer Motion** — reveals, route transitions, micro-interactions, modal
-- **GSAP + ScrollTrigger** — hero parallax, timeline draw, entrance timelines
-- **next-themes** — flash-free dark/light theme
-- **next/font** (Sora · Inter · JetBrains Mono) and **next/image**
+- **Tailwind CSS v4** (CSS-first `@theme` tokens taken from the Figma colour sheet)
+- **GSAP** (`useGSAP`, ScrollTrigger, Flip) — card reveals, rolling counters, role ticker,
+  marquees, project filter transitions, modal timeline
+- **next/font** (Manrope) and **next/image**; icons from `react-icons` (Remix + Simple Icons)
+
+## Design notes
+
+- On screens ≥ 1440px the home grid renders at the exact Figma frame size (1512×784) and is
+  scaled to fit the viewport via `--bento-scale` (set before first paint in `layout.tsx`),
+  like Figma's prototype view. Below that, `.bento` in `globals.css` switches to 3-, 2- and
+  1-column grid-area layouts.
+- Card content comes from `src/data/portfolioData.ts`. The Figma "Testimonials" and "Clients"
+  cards are adapted into an education **Journey** feed and a **Toolbox** logo wall, since there
+  is no testimonial or client data yet.
 
 ## Getting started
 
 ```bash
 npm install
 cp .env.example .env.local   # then fill in the values (see below)
-npm run dev                  # http://localhost:3000
+npm run dev                  # http://localhost:3010
 ```
 
 Scripts: `npm run dev` · `npm run build` · `npm run start` · `npm run lint`.
@@ -41,18 +50,18 @@ messages to Telegram. The bot token is **server-only** and never shipped to the 
 ```
 src/
   app/                 # routes: / · /projects · /resume · /contact · 404 · api/contact
-    layout.tsx         # metadata, fonts, providers, nav, background, footer
-    template.tsx       # per-route enter transition
-    globals.css        # design tokens, @theme, utilities, keyframes
+    layout.tsx         # metadata, font, boot script (js flag + --bento-scale)
+    page.tsx           # the home bento grid
+    globals.css        # design tokens, @theme, responsive .bento grid areas
   components/
-    layout/            # Navbar, Footer, Background, Preloader
-    ui/                # TiltCard, SpotlightCard, Magnetic, Button, Reveal, …
-    sections/          # Hero, AboutIntro, FeaturedProjects, SkillsShowcase, …
-    projects/          # ProjectCard, ProjectModal, ProjectGallery, ProjectsView
-    resume/ · contact/ · skills/ · providers/
+    bento/             # BentoCard, CardHeader, primitives, Marquee, Odometer, RoleCycler, RevealGroup
+    home/              # one component per home card (Profile, Stats, Stacks, Journey, …)
+    layout/            # PageShell (sub-page frame, header, footer), SiteNav
+    projects/          # ProjectsView (filter + Flip), ProjectCard, ProjectModal
+    resume/ · contact/ · seo/
   data/portfolioData.ts  # all site content (single source of truth)
-  lib/                 # site config, fonts, gsap, motion presets, helpers
-  hooks/ · types/
+  lib/                 # site config, fonts, gsap, tech icons, derived-data helpers
+  types/
 ```
 
 Edit content in `src/data/portfolioData.ts`. Images live in `public/`.
@@ -64,6 +73,7 @@ environment variables above. No `vercel.json` rewrites are needed — Next handl
 
 ## Accessibility & performance
 
-- Honors `prefers-reduced-motion` (Framer `MotionConfig`, GSAP gating, CSS).
+- Honors `prefers-reduced-motion`: every GSAP animation is gated by `gsap.matchMedia()`,
+  and marquees turn into scrollable strips.
 - Focus-trapped modal, keyboard nav, semantic landmarks, AA-minded contrast.
 - `next/image` + `next/font`, transform/opacity-only animation, on-demand modal.
