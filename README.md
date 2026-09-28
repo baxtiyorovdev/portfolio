@@ -240,8 +240,11 @@ visit statistics — views, visitors, countries, regions/cities, pages, referrer
 ## SEO
 
 Name, handle, spelling variants, title and description live in `src/lib/site.ts` and feed
-the `<title>`, meta description, Open Graph profile tags, the OG/Twitter image, sitemap and
-JSON-LD (`Person` with `alternateName` + `sameAs`, `WebSite`, `ProfilePage`, breadcrumbs).
+the `<title>`, meta description, Open Graph profile tags, sitemap and JSON-LD (`Person` with
+`alternateName` + `sameAs`, `WebSite`, `ProfilePage`, breadcrumbs). The share image and icons
+are static files (`src/app/opengraph-image.png`, `twitter-image.png`, `icon.png`,
+`apple-icon.png`) — replace them if the name or logo changes. Don't generate them from files
+in `public/` at runtime: Vercel's server functions can't read `public/`.
 Search engines and Lighthouse get the page without the preloader or entrance animations.
 
 Off-site steps that matter most for ranking on "Baxtiyorov Shaxriyor" / "baxtiyorovdev":
