@@ -84,9 +84,12 @@ export function getLatestSchool(resume: Resume): string {
 export const phoneHref = (about: About) => `tel:${about.social.phone.replace(/[^\d+]/g, "")}`;
 export const emailHref = (about: About) => `mailto:${about.social.email}`;
 
-/** Contact map configuration (Google Maps embed). */
+/**
+ * Contact map, deliberately city-level only (privacy): searching the city name
+ * makes Google outline Qarshi as a whole instead of pinning an exact address.
+ */
 export const contactConfig = {
-  lat: 38.859861,
-  lng: 65.80325,
-  coordsLabel: `38°51'35.5"N 65°48'11.7"E`,
+  label: "Qarshi, Qashqadaryo · Uzbekistan",
+  mapQuery: "Qarshi, Qashqadaryo, Uzbekistan",
+  zoom: 12,
 };
