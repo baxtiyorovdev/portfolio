@@ -2,19 +2,20 @@ import type { IconType } from "react-icons";
 import { RiCodeSSlashFill, RiFlagFill, RiShieldStarFill } from "react-icons/ri";
 import { BentoCard } from "@/components/bento/BentoCard";
 import { Odometer } from "@/components/bento/Odometer";
-import { stats } from "@/lib/portfolio";
 import { cn } from "@/lib/utils";
 
 type Stat = { value: number; label: string; short: string; icon: IconType };
 
-const items: Stat[] = [
-  { value: stats.projects, label: "Projects", short: "Projects", icon: RiFlagFill },
-  { value: stats.technologies, label: "Technologies", short: "Skills", icon: RiCodeSSlashFill },
-  { value: stats.years, label: "Years Coding", short: "Years", icon: RiShieldStarFill },
-];
+type Stats = { projects: number; technologies: number; years: number };
 
 /** Three rolling-counter tiles (Figma Components 27 / 29 / 31). */
-export function StatsRow({ area, className }: { area?: string; className?: string }) {
+export function StatsRow({ stats, area, className }: { stats: Stats; area?: string; className?: string }) {
+  const items: Stat[] = [
+    { value: stats.projects, label: "Projects", short: "Projects", icon: RiFlagFill },
+    { value: stats.technologies, label: "Technologies", short: "Skills", icon: RiCodeSSlashFill },
+    { value: stats.years, label: "Years Coding", short: "Years", icon: RiShieldStarFill },
+  ];
+
   return (
     <div
       style={area ? { gridArea: area } : undefined}

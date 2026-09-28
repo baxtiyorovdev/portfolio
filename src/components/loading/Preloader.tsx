@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { isPreloading, signalIntroReady } from "@/lib/intro";
-import { about } from "@/lib/portfolio";
 import { MiniBento } from "./MiniBento";
 
 /** Resolves when the page (images, fonts) has loaded, or after `cap` ms. */
@@ -23,7 +22,7 @@ function pageLoaded(cap: number): Promise<void> {
  * once the page has loaded the counter completes and a curtain lifts, handing
  * over to the page's own entrance animation.
  */
-export function Preloader() {
+export function Preloader({ name, title }: { name: string; title: string }) {
   const root = useRef<HTMLDivElement>(null);
   const [done, setDone] = useState(false);
 
@@ -115,8 +114,8 @@ export function Preloader() {
 
       <div className="relative flex w-[min(300px,80vw)] flex-col gap-4">
         <div data-line className="flex flex-col items-center gap-1 text-center">
-          <p className="text-[15px] font-semibold text-fg">{about.name}</p>
-          <p className="text-[13px] font-medium text-muted">{about.title}</p>
+          <p className="text-[15px] font-semibold text-fg">{name}</p>
+          <p className="text-[13px] font-medium text-muted">{title}</p>
         </div>
 
         <div data-line className="flex flex-col gap-2">

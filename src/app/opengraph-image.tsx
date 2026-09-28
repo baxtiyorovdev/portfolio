@@ -36,11 +36,13 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             background:
-              "radial-gradient(circle, rgba(145,108,231,0.45), rgba(145,108,231,0))",
+              // Fade out well inside the box so its edges never show.
+              "radial-gradient(circle at center, rgba(145,108,231,0.45) 0%, rgba(145,108,231,0) 70%)",
           }}
         />
 
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse (Satori) renders plain <img> only */}
           <img
             src={logoSrc}
             width={84}
@@ -62,10 +64,11 @@ export default function OpengraphImage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02 }}>
-            Baxtiyorov Shaxriyor
+            {siteConfig.name}
           </div>
-          <div style={{ fontSize: 38, color: "#999999", maxWidth: 940 }}>
-            Building clean, fast &amp; modern web interfaces.
+          <div style={{ fontSize: 40, color: "#916ce7" }}>{`@${siteConfig.handle}`}</div>
+          <div style={{ fontSize: 34, color: "#999999", maxWidth: 940 }}>
+            Front End Developer from Uzbekistan — React, Next.js &amp; TypeScript.
           </div>
         </div>
 
@@ -78,7 +81,7 @@ export default function OpengraphImage() {
             color: "#999999",
           }}
         >
-          <div style={{ color: "#916ce7" }}>baxtiyorov.dev</div>
+          <div style={{ color: "#e6e6e6" }}>{new URL(siteConfig.url).hostname}</div>
           <div>React · Next.js · TypeScript</div>
         </div>
       </div>

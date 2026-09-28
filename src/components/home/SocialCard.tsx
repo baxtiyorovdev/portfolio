@@ -1,17 +1,11 @@
-import { RiGithubFill, RiInstagramFill, RiMailFill, RiRocket2Fill, RiTelegram2Fill } from "react-icons/ri";
+import { RiRocket2Fill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { LinkTile } from "@/components/bento/Primitives";
-import { about, emailHref } from "@/lib/portfolio";
-
-export const socialLinks = [
-  { label: "GitHub", href: about.social.github, icon: RiGithubFill },
-  { label: "Telegram", href: about.social.telegram, icon: RiTelegram2Fill },
-  { label: "Instagram", href: about.social.instagram, icon: RiInstagramFill },
-  { label: "Email", href: emailHref, icon: RiMailFill },
-];
+import { getSocialLinks } from "@/lib/social";
+import type { About } from "@/types";
 
 /** "Online Presence" (Figma Components 20–23). */
-export function SocialCard() {
+export function SocialCard({ about }: { about: About }) {
   return (
     <BentoCard
       area="social"
@@ -20,7 +14,7 @@ export function SocialCard() {
     >
       <CardHeader icon={RiRocket2Fill} label="Follow Me" title="Online Presence" id="social-title" />
       <ul className="flex flex-col gap-2">
-        {socialLinks.map((link) => (
+        {getSocialLinks(about).map((link) => (
           <li key={link.label}>
             <LinkTile
               href={link.href}

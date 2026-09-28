@@ -1,25 +1,10 @@
 "use client";
 
 import { useId, useState } from "react";
-import type { IconType } from "react-icons";
-import {
-  RiBugLine,
-  RiCodeBoxLine,
-  RiRocketLine,
-  RiRouteLine,
-  RiSearchEyeLine,
-} from "react-icons/ri";
 import { IconTile } from "@/components/bento/Primitives";
-import type { ProcessIcon, ProcessStep } from "@/types";
+import { PROCESS_ICONS } from "@/lib/icons";
+import type { ProcessStep } from "@/types";
 import { cn } from "@/lib/utils";
-
-const ICONS: Record<ProcessIcon, IconType> = {
-  discover: RiSearchEyeLine,
-  plan: RiRouteLine,
-  build: RiCodeBoxLine,
-  test: RiBugLine,
-  launch: RiRocketLine,
-};
 
 /**
  * Workflow steps with the Figma "Frame 301" tooltip. Hover or keyboard focus
@@ -47,7 +32,7 @@ export function ProcessList({ steps }: { steps: ProcessStep[] }) {
               className="group flex h-[46px] w-full cursor-pointer items-center gap-1.5 rounded-tile border-[0.8px] border-white/[0.02] bg-tile p-[7px] text-left transition-colors duration-300 hover:bg-[#1e1e1e]"
             >
               <IconTile
-                icon={ICONS[step.icon]}
+                icon={PROCESS_ICONS[step.icon].icon}
                 iconClassName="size-4"
                 className="group-hover:text-primary group-focus-visible:text-primary"
               />

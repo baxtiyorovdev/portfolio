@@ -5,12 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BentoCard } from "@/components/bento/BentoCard";
 import { AvailableDot } from "@/components/bento/Primitives";
-import { about } from "@/lib/portfolio";
 import { navItems } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /** Bento-style top bar used on every page except the one-screen home grid. */
-export function SiteNav() {
+export function SiteNav({ name, title, avatar }: { name: string; title: string; avatar: string }) {
   const pathname = usePathname();
 
   return (
@@ -21,7 +20,7 @@ export function SiteNav() {
       <Link href="/" className="group flex items-center gap-3" aria-label="Home">
         <span className="relative size-[38px] shrink-0 overflow-hidden rounded-[10px] bg-primary">
           <Image
-            src={about.avatar}
+            src={avatar}
             alt=""
             fill
             sizes="38px"
@@ -29,8 +28,8 @@ export function SiteNav() {
           />
         </span>
         <span className="flex flex-col leading-tight">
-          <span className="text-sm font-semibold text-fg">{about.name}</span>
-          <span className="text-xs font-medium text-muted">{about.title}</span>
+          <span className="text-sm font-semibold text-fg">{name}</span>
+          <span className="text-xs font-medium text-muted">{title}</span>
         </span>
       </Link>
 

@@ -2,9 +2,10 @@ import { RiMailFill, RiMessage3Fill, RiVipCrownFill } from "react-icons/ri";
 import { BentoCard } from "@/components/bento/BentoCard";
 import { ActionButton } from "@/components/bento/Primitives";
 import { emailHref } from "@/lib/portfolio";
+import type { About } from "@/types";
 
 /** "Let's Work Together" call-to-action (Figma Frame 286). */
-export function CtaCard() {
+export function CtaCard({ about }: { about: About }) {
   return (
     <BentoCard
       area="cta"
@@ -35,7 +36,7 @@ export function CtaCard() {
       </div>
 
       <div className="relative flex w-full flex-col gap-3 lg:max-w-xl lg:flex-row wide:max-w-none wide:flex-col">
-        <ActionButton href={emailHref} icon={RiMailFill}>
+        <ActionButton href={emailHref(about)} icon={RiMailFill}>
           Email Me
         </ActionButton>
         <ActionButton href="/contact" icon={RiMessage3Fill}>

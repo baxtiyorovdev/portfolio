@@ -3,10 +3,10 @@ import { RiBriefcase4Fill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { Marquee } from "@/components/bento/Marquee";
 import { PrimaryButton } from "@/components/bento/Primitives";
-import { projects } from "@/lib/portfolio";
+import type { Project } from "@/types";
 
 /** "Works Gallery": a drifting strip of project covers under a CTA (Figma Component 5). */
-export function ProjectsCard() {
+export function ProjectsCard({ projects }: { projects: Project[] }) {
   return (
     <BentoCard
       area="projects"

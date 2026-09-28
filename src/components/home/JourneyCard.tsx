@@ -1,15 +1,13 @@
 import { RiBookOpenFill, RiGraduationCapFill, RiRouteLine } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { Marquee } from "@/components/bento/Marquee";
-import { educationTimeline, resume } from "@/lib/portfolio";
-import type { Education } from "@/types";
+import { getEducationTimeline, type TimelineItem } from "@/lib/portfolio";
+import type { Resume } from "@/types";
 import { cn } from "@/lib/utils";
 
-// Object identity tells courses apart from schools (their ids overlap).
-const courses = new Set<Education>(resume.developer_education);
-
-function JourneyItem({ item, isCourse, offset }: { item: Education; isCourse: boolean; offset: boolean }) {
+function JourneyItem({ item, offset }: { item: TimelineItem; offset: boolean }) {
   const [title, ...rest] = item.place.split(",");
+  const isCourse = item.kind === "course";
   const Icon = isCourse ? RiBookOpenFill : RiGraduationCapFill;
 
   return (
@@ -45,9 +43,9 @@ function JourneyItem({ item, isCourse, offset }: { item: Education; isCourse: bo
  * Education journey in the shape of the Figma "Reviews Showcase": staggered
  * cards drifting upward, fading out at both edges.
  */
-export function JourneyCard() {
+export function JourneyCard({ resume }: { resume: Resume }) {
   // Newest first, like a feed.
-  const items = [...educationTimeline].reverse();
+  const items = getEducationTimeline(resume).reverse();
 
   return (
     <BentoCard
@@ -64,9 +62,8 @@ export function JourneyCard() {
       >
         {items.map((item, index) => (
           <JourneyItem
-            key={`${item.id}-${item.place}`}
+            key={`${item.kind}-${item.id}-${item.place}`}
             item={item}
-            isCourse={courses.has(item)}
             offset={index % 2 === 1}
           />
         ))}

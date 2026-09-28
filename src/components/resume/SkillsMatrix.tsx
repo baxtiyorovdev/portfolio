@@ -2,16 +2,19 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
-import { resume, skillLevelToPercent } from "@/lib/portfolio";
+import { isCrawler } from "@/lib/intro";
+import { skillLevelToPercent } from "@/lib/portfolio";
+import type { Skill } from "@/types";
 import { getTech } from "@/lib/tech";
 import { IconTile } from "@/components/bento/Primitives";
 
 /** Skill tiles with level meters that fill when the grid scrolls into view. */
-export function SkillsMatrix() {
+export function SkillsMatrix({ skills }: { skills: Skill[] }) {
   const root = useRef<HTMLUListElement>(null);
 
   useGSAP(
     () => {
+      if (isCrawler()) return;
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         gsap.from("[data-meter]", {
@@ -29,7 +32,7 @@ export function SkillsMatrix() {
 
   return (
     <ul ref={root} className="grid gap-2 p-3 sm:grid-cols-2 sm:p-4 lg:grid-cols-3 xl:grid-cols-5">
-      {resume.skills.map((skill) => {
+      {skills.map((skill) => {
         const percent = skillLevelToPercent(skill.level);
         return (
           <li key={skill.name} className="flex flex-col gap-3 rounded-tile bg-tile p-[7px] pb-3">

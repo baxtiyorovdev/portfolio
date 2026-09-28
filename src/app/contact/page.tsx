@@ -11,11 +11,12 @@ import {
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { IconTile, LinkTile } from "@/components/bento/Primitives";
 import { PageHeader, PageShell } from "@/components/layout/PageShell";
-import { socialLinks } from "@/components/home/SocialCard";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { MapPanel } from "@/components/contact/MapPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { about, emailHref, phoneHref } from "@/lib/portfolio";
+import { getPortfolio } from "@/lib/content";
+import { emailHref, phoneHref } from "@/lib/portfolio";
+import { getSocialLinks } from "@/lib/social";
 import { breadcrumbSchema, contactPageSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -25,7 +26,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { about } = await getPortfolio();
   return (
     <>
       <JsonLd
@@ -53,10 +55,10 @@ export default function ContactPage() {
               <CardHeader icon={RiSignalTowerFill} label="Reach Me" title="Direct Channels" id="channels-title" />
               <ul className="flex flex-col gap-2">
                 <li>
-                  <LinkTile href={emailHref} icon={RiMailFill} label={about.social.email} />
+                  <LinkTile href={emailHref(about)} icon={RiMailFill} label={about.social.email} />
                 </li>
                 <li>
-                  <LinkTile href={phoneHref} icon={RiPhoneFill} label={about.social.phone} />
+                  <LinkTile href={phoneHref(about)} icon={RiPhoneFill} label={about.social.phone} />
                 </li>
                 <li>
                   <span className="flex min-h-[49px] items-center gap-1.5 rounded-tile bg-tile p-[7px]">
@@ -70,7 +72,7 @@ export default function ContactPage() {
             <BentoCard aria-labelledby="follow-title" className="gap-6 p-5">
               <CardHeader icon={RiRocket2Fill} label="Follow Me" title="Online Presence" id="follow-title" />
               <ul className="grid grid-cols-2 gap-2">
-                {socialLinks.map((link) => (
+                {getSocialLinks(about).map((link) => (
                   <li key={link.label} className="min-w-0">
                     <LinkTile href={link.href} icon={link.icon} label={link.label} />
                   </li>
@@ -78,7 +80,7 @@ export default function ContactPage() {
               </ul>
             </BentoCard>
 
-            <MapPanel />
+            <MapPanel about={about} />
           </div>
 
           <BentoCard aria-labelledby="form-title" className="border-white/[0.06] pt-2.5 lg:self-start">

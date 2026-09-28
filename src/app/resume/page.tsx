@@ -15,11 +15,12 @@ import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { Chip, IconTile, LinkTile, PrimaryButton } from "@/components/bento/Primitives";
 import { PageHeader, PageShell } from "@/components/layout/PageShell";
 import { StatsRow } from "@/components/home/StatsRow";
-import { socialLinks } from "@/components/home/SocialCard";
 import { Timeline } from "@/components/resume/Timeline";
 import { SkillsMatrix } from "@/components/resume/SkillsMatrix";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { about, emailHref, phoneHref } from "@/lib/portfolio";
+import { getPortfolio } from "@/lib/content";
+import { emailHref, getStats, phoneHref } from "@/lib/portfolio";
+import { getSocialLinks } from "@/lib/social";
 import { breadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -29,14 +30,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/resume" },
 };
 
-const contactRows = [
-  { icon: RiMapPin2Fill, value: about.social.location },
-  { icon: RiShieldStarFill, value: `${about.social.experience} experience` },
-  { icon: RiMailFill, value: about.social.email, href: emailHref },
-  { icon: RiPhoneFill, value: about.social.phone, href: phoneHref },
-];
+export default async function ResumePage() {
+  const data = await getPortfolio();
+  const { about } = data;
+  const contactRows = [
+    { icon: RiMapPin2Fill, value: `${about.social.location} · ${about.timezone}` },
+    { icon: RiShieldStarFill, value: `${about.social.experience} experience` },
+    { icon: RiMailFill, value: about.social.email, href: emailHref(about) },
+    { icon: RiPhoneFill, value: about.social.phone, href: phoneHref(about) },
+  ];
 
-export default function ResumePage() {
   return (
     <>
       <JsonLd
@@ -58,7 +61,7 @@ export default function ResumePage() {
           actions={<PrimaryButton href="/contact">Hire Me</PrimaryButton>}
         />
 
-        <StatsRow />
+        <StatsRow stats={getStats(data)} />
 
         <div className="grid gap-3 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <BentoCard as="aside" aria-labelledby="summary-title" className="gap-6 p-5 lg:self-start">
@@ -116,7 +119,7 @@ export default function ResumePage() {
             </div>
 
             <ul className="grid grid-cols-2 gap-2 border-t border-line pt-5">
-              {socialLinks.map((link) => (
+              {getSocialLinks(about).map((link) => (
                 <li key={link.label} className="min-w-0">
                   <LinkTile href={link.href} icon={link.icon} label={link.label} />
                 </li>
@@ -132,13 +135,13 @@ export default function ResumePage() {
               title="Learning Timeline"
               id="education-title"
             />
-            <Timeline />
+            <Timeline resume={data.resume} />
           </BentoCard>
         </div>
 
         <BentoCard aria-labelledby="skills-title" className="border-white/[0.06] pt-2.5">
           <CardHeader bordered icon={RiStackFill} label="Skills" title="Technical Toolkit" id="skills-title" />
-          <SkillsMatrix />
+          <SkillsMatrix skills={data.resume.skills} />
         </BentoCard>
       </PageShell>
     </>

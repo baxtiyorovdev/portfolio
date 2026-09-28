@@ -2,34 +2,37 @@ import type { ReactNode } from "react";
 import type { IconType } from "react-icons";
 import { BentoCard } from "@/components/bento/BentoCard";
 import { RevealGroup } from "@/components/bento/RevealGroup";
-import { socialLinks } from "@/components/home/SocialCard";
-import { about } from "@/lib/portfolio";
+import { getPortfolio } from "@/lib/content";
+import { siteConfig } from "@/lib/site";
+import { getSocialLinks } from "@/lib/social";
+import type { About } from "@/types";
 import { SiteNav } from "./SiteNav";
 
 /** Frame for sub-pages: bento nav, content cards revealed on scroll, footer card. */
-export function PageShell({ children }: { children: ReactNode }) {
+export async function PageShell({ children }: { children: ReactNode }) {
+  const { about } = await getPortfolio();
   return (
     <div className="mx-auto w-full max-w-[1512px] px-4 py-4 sm:px-6 sm:py-6 wide:px-[50px] wide:py-[30px]">
       <RevealGroup mode="scroll" className="flex flex-col gap-3">
-        <SiteNav />
+        <SiteNav name={about.name} title={about.title} avatar={about.avatar} />
         <main className="flex flex-col gap-3">{children}</main>
-        <SiteFooter />
+        <SiteFooter about={about} />
       </RevealGroup>
     </div>
   );
 }
 
-function SiteFooter() {
+function SiteFooter({ about }: { about: About }) {
   return (
     <BentoCard
       as="div"
       className="flex-col items-center justify-between gap-4 rounded-[16px] px-5 py-4 text-[13px] font-medium text-muted sm:flex-row"
     >
       <p>
-        © {new Date().getFullYear()} {about.name}. Built with Next.js &amp; GSAP.
+        © {new Date().getFullYear()} {about.name} · @{siteConfig.handle}. Built with Next.js &amp; GSAP.
       </p>
       <ul className="flex gap-2">
-        {socialLinks.map(({ label, href, icon: Icon }) => (
+        {getSocialLinks(about).map(({ label, href, icon: Icon }) => (
           <li key={label}>
             <a
               href={href}

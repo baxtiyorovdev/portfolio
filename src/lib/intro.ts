@@ -8,6 +8,11 @@
 export const PRELOADER_DONE_EVENT = "preloader:done";
 export const PRELOADER_SESSION_KEY = "bento-preloaded";
 
+/** Set by the boot script for search engines / audit tools: render final states, no entrances. */
+export function isCrawler(): boolean {
+  return document.documentElement.classList.contains("crawler");
+}
+
 export function isPreloading(): boolean {
   return document.documentElement.classList.contains("preloading");
 }

@@ -4,8 +4,9 @@ import { useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { RiFilter3Line } from "react-icons/ri";
 import type { Project } from "@/types";
-import { getProjectCategory, projects } from "@/lib/portfolio";
+import { getProjectCategory } from "@/lib/portfolio";
 import { Flip, gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { isCrawler } from "@/lib/intro";
 import { cn } from "@/lib/utils";
 import { ProjectCard } from "./ProjectCard";
 
@@ -16,10 +17,10 @@ const ProjectModal = dynamic(() =>
 
 type FlipState = ReturnType<typeof Flip.getState>;
 
-export function ProjectsView() {
+export function ProjectsView({ projects }: { projects: Project[] }) {
   const categories = useMemo(
     () => ["All", ...Array.from(new Set(projects.map(getProjectCategory)))],
-    [],
+    [projects],
   );
   const [active, setActive] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
@@ -29,6 +30,7 @@ export function ProjectsView() {
   // Cards stagger in once on mount.
   useGSAP(
     () => {
+      if (isCrawler()) return;
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         gsap.from("[data-project]", {

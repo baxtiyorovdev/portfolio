@@ -1,7 +1,6 @@
 import { RiToolsFill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { Marquee } from "@/components/bento/Marquee";
-import { allTechnologies } from "@/lib/portfolio";
 import { getTech } from "@/lib/tech";
 
 function LogoPill({ name }: { name: string }) {
@@ -15,9 +14,9 @@ function LogoPill({ name }: { name: string }) {
 }
 
 /** "Technologies I Use": logo rows in the style of the Figma client wall (Components 10 / 13). */
-export function ToolboxCard() {
-  const half = Math.ceil(allTechnologies.length / 2);
-  const rows = [allTechnologies.slice(0, half), allTechnologies.slice(half)];
+export function ToolboxCard({ technologies }: { technologies: string[] }) {
+  const half = Math.ceil(technologies.length / 2);
+  const rows = [technologies.slice(0, half), technologies.slice(half)];
 
   return (
     <BentoCard

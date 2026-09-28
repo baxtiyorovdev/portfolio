@@ -2,7 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, MOTION_REDUCED } from "@/lib/gsap";
-import { whenIntroReady } from "@/lib/intro";
+import { isCrawler, whenIntroReady } from "@/lib/intro";
 
 type RevealGroupProps = {
   children: ReactNode;
@@ -23,6 +23,7 @@ export function RevealGroup({ children, className, mode = "scroll" }: RevealGrou
 
   useGSAP(
     () => {
+      if (isCrawler()) return; // cards are already visible (no html.js)
       const mm = gsap.matchMedia();
 
       mm.add(MOTION_OK, (context) => {

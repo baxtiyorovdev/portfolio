@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP, MOTION_OK, MOTION_REDUCED } from "@/lib/gsap";
-import { whenIntroReady } from "@/lib/intro";
+import { isCrawler, whenIntroReady } from "@/lib/intro";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -35,6 +35,10 @@ export function Odometer({
 
   useGSAP(
     () => {
+      if (isCrawler()) {
+        gsap.set(column.current, { yPercent: rollPercent });
+        return;
+      }
       const mm = gsap.matchMedia();
 
       mm.add(MOTION_OK, (context) => {

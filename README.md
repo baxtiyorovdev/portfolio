@@ -45,26 +45,80 @@ messages to Telegram. The bot token is **server-only** and never shipped to the 
 > in @BotFather and put the new value in `.env.local` (local) and Vercel project
 > settings → Environment Variables (production).
 
+## Admin panel (`/admin`)
+
+Edit all site content (profile, projects with image uploads, resume, home cards) and see
+visit statistics — views, visitors, countries, regions/cities, pages, referrers, devices.
+
+**Setup on Vercel**
+
+1. **Database:** Project → Storage → create a **Neon** Postgres database and connect it.
+   Copy the *pooled* connection string into `DATABASE_URL` (Production + Development).
+2. **Images:** Storage → create a **Blob** store and connect it (adds `BLOB_READ_WRITE_TOKEN`).
+3. **Login:** add `ADMIN_PASSWORD` (long and unique) and `ADMIN_SESSION_SECRET`
+   (≥ 32 random chars: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`).
+4. Locally, put the same values in `.env.local`, then create the tables once:
+   ```bash
+   npm run db:push     # creates site_content, page_views, login_attempts
+   ```
+5. Redeploy and open `https://<your-domain>/admin`.
+
+**How it works**
+
+- Content is one JSON document in `site_content`, validated with zod on every save
+  (`src/lib/content-schema.ts`). Until the first save — or without `DATABASE_URL` — the site
+  shows the static defaults from `src/data/portfolioData.ts`. Saving regenerates every page.
+- Visits are sent by a small beacon (`sendBeacon` → `/api/track`). Country, region and city
+  come from Vercel's edge geo headers, so they are empty in local development. No IP address
+  is stored: visitors are counted with a salted hash that rotates daily. Bots, Do Not Track /
+  Global Privacy Control users and your own visits while logged in are not counted.
+- Security: signed httpOnly session cookie (changing the password signs every session out),
+  middleware + per-action checks, and login is locked for 15 minutes after 5 failed attempts.
+
+## SEO
+
+Name, handle, spelling variants, title and description live in `src/lib/site.ts` and feed
+the `<title>`, meta description, Open Graph profile tags, the OG/Twitter image, sitemap and
+JSON-LD (`Person` with `alternateName` + `sameAs`, `WebSite`, `ProfilePage`, breadcrumbs).
+Search engines and Lighthouse get the page without the preloader or entrance animations.
+
+Off-site steps that matter most for ranking on "Baxtiyorov Shaxriyor" / "baxtiyorovdev":
+
+1. **Google Search Console** → add the domain property `baxtiyorov.dev`, submit
+   `https://baxtiyorov.dev/sitemap.xml`, and request indexing for `/`, `/resume`, `/projects`.
+   (HTML-tag verification: set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`.)
+2. **Link every profile back to the site** — GitHub (name + Website field + profile README),
+   Telegram and Instagram bios, LinkedIn. These match the `sameAs` links in the structured data.
+3. **Yandex Webmaster** and **Bing Webmaster Tools** (`NEXT_PUBLIC_YANDEX_VERIFICATION`,
+   `NEXT_PUBLIC_BING_VERIFICATION`) — submit the same sitemap.
+4. In Vercel → Domains, make `www.baxtiyorov.dev` redirect to the apex with **308 (permanent)**.
+
 ## Project structure
 
 ```
 src/
-  app/                 # routes: / · /projects · /resume · /contact · 404 · api/contact
-    layout.tsx         # metadata, font, boot script (js flag + --bento-scale)
+  app/                 # routes: / · /projects · /resume · /contact · 404 · api/contact · api/track
+    admin/             # login, (panel)/ stats · profile · projects · resume · home, server actions
+    layout.tsx         # metadata, font, boot script (js flag + --bento-scale + preloader)
     page.tsx           # the home bento grid
     globals.css        # design tokens, @theme, responsive .bento grid areas
   components/
+    admin/             # admin forms, dashboard, chart
     bento/             # BentoCard, CardHeader, primitives, Marquee, Odometer, RoleCycler, RevealGroup
     home/              # one component per home card (Profile, Stats, Stacks, Journey, …)
-    layout/            # PageShell (sub-page frame, header, footer), SiteNav
+    layout/            # PageShell (sub-page frame, header, footer), SiteNav, SiteChrome
+    loading/           # GSAP preloader, route loader, shimmer skeleton
     projects/          # ProjectsView (filter + Flip), ProjectCard, ProjectModal
-    resume/ · contact/ · seo/
-  data/portfolioData.ts  # all site content (single source of truth)
-  lib/                 # site config, fonts, gsap, tech icons, derived-data helpers
+    analytics/ · resume/ · contact/ · seo/
+  data/portfolioData.ts  # default content (used until the first admin save)
+  db/                  # Drizzle schema + Postgres client
+  lib/                 # content loading, auth, analytics, site config, gsap, helpers
+  middleware.ts        # protects /admin and /api/admin
   types/
 ```
 
-Edit content in `src/data/portfolioData.ts`. Images live in `public/`.
+Edit content in the admin panel (or, without a database, in `src/data/portfolioData.ts`).
+Static images live in `public/`; uploaded ones in Vercel Blob.
 
 ## Deployment (Vercel)
 

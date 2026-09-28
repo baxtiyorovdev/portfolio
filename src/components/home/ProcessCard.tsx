@@ -1,9 +1,9 @@
 import { RiSparkling2Fill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
-import { workflow } from "@/lib/portfolio";
+import type { ProcessStep } from "@/types";
 import { ProcessList } from "./ProcessList";
 
-export function ProcessCard() {
+export function ProcessCard({ steps }: { steps: ProcessStep[] }) {
   return (
     // No overflow clipping: step tooltips float over neighbouring cards.
     <BentoCard area="process" aria-labelledby="process-title" className="border-white/[0.06] pt-2.5">
@@ -14,7 +14,7 @@ export function ProcessCard() {
         title="Workflow Highlights"
         id="process-title"
       />
-      <ProcessList steps={workflow} />
+      <ProcessList steps={steps} />
     </BentoCard>
   );
 }

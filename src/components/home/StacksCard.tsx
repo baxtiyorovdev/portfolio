@@ -1,10 +1,9 @@
 import { RiStackFill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { LinkTile } from "@/components/bento/Primitives";
-import { featuredStack } from "@/lib/portfolio";
 import { getTech } from "@/lib/tech";
 
-export function StacksCard() {
+export function StacksCard({ featuredStack }: { featuredStack: string[] }) {
   return (
     <BentoCard area="stacks" aria-label="My stacks" className="gap-[30px] p-5">
       <CardHeader icon={RiStackFill} label="My Stacks" />

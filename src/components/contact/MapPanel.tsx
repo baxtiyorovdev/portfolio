@@ -1,8 +1,9 @@
 import { RiMapPin2Fill, RiNavigationFill } from "react-icons/ri";
 import { BentoCard } from "@/components/bento/BentoCard";
-import { about, contactConfig } from "@/lib/portfolio";
+import { contactConfig } from "@/lib/portfolio";
+import type { About } from "@/types";
 
-export function MapPanel() {
+export function MapPanel({ about }: { about: About }) {
   const mapQuery = encodeURIComponent(`${contactConfig.lat},${contactConfig.lng}`);
   const src = `https://www.google.com/maps?q=${contactConfig.lat},${contactConfig.lng}&z=15&output=embed`;
 

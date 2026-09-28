@@ -2,31 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   RiArrowRightUpLine,
+  RiAtLine,
   RiGlobalLine,
   RiGraduationCapFill,
   RiInstagramFill,
   RiMapPin2Fill,
-  RiShieldStarFill,
   RiTelegram2Fill,
-  RiTimeFill,
 } from "react-icons/ri";
 import { BentoCard } from "@/components/bento/BentoCard";
 import { ActionButton, AvailableDot, Chip, IconTile } from "@/components/bento/Primitives";
 import { RoleCycler } from "@/components/bento/RoleCycler";
-import { about, latestSchool } from "@/lib/portfolio";
+import { siteConfig } from "@/lib/site";
+import type { About } from "@/types";
 
 function listToText(items: string[]) {
   if (items.length < 2) return items.join("");
   return `${items.slice(0, -1).join(", ")} & ${items.at(-1)}`;
 }
 
-export function ProfileCard() {
+export function ProfileCard({ about, school }: { about: About; school: string }) {
   const facts = [
     { icon: RiMapPin2Fill, label: about.social.location },
     { icon: RiGlobalLine, label: listToText(about.languages) },
-    { icon: RiGraduationCapFill, label: latestSchool },
-    { icon: RiShieldStarFill, label: about.social.experience },
-    { icon: RiTimeFill, label: about.timezone },
+    { icon: RiGraduationCapFill, label: school },
+    { icon: RiAtLine, label: `@${siteConfig.handle}` },
   ].filter((fact) => fact.label);
 
   return (

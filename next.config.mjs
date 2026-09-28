@@ -2,8 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // All portfolio imagery lives in /public, so no remote patterns are required.
     formats: ["image/avif", "image/webp"],
+    // Images uploaded from the admin panel live in Vercel Blob.
+    remotePatterns: [{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" }],
   },
   eslint: {
     // Type-checking still runs during builds; ESLint is run separately via

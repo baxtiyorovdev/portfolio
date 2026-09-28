@@ -1,39 +1,21 @@
-import type { IconType } from "react-icons";
-import {
-  RiCodeSSlashFill,
-  RiLayout4Line,
-  RiLayoutGridFill,
-  RiMagicFill,
-  RiPlugLine,
-  RiSmartphoneLine,
-  RiSpeedUpLine,
-} from "react-icons/ri";
+import { RiLayoutGridFill } from "react-icons/ri";
 import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
 import { Marquee } from "@/components/bento/Marquee";
 import { IconTile, PrimaryButton } from "@/components/bento/Primitives";
-import { services } from "@/lib/portfolio";
-import type { Service, ServiceIcon } from "@/types";
-
-const ICONS: Record<ServiceIcon, IconType> = {
-  code: RiCodeSSlashFill,
-  responsive: RiSmartphoneLine,
-  layout: RiLayout4Line,
-  api: RiPlugLine,
-  speed: RiSpeedUpLine,
-  motion: RiMagicFill,
-};
+import { SERVICE_ICONS } from "@/lib/icons";
+import type { Service } from "@/types";
 
 function ServicePill({ service }: { service: Service }) {
   return (
     <span className="flex shrink-0 items-center gap-1.5 rounded-tile bg-tile py-[7px] pl-[7px] pr-[15px] text-sm font-medium text-soft">
-      <IconTile icon={ICONS[service.icon]} iconClassName="size-4" />
+      <IconTile icon={SERVICE_ICONS[service.icon].icon} iconClassName="size-4" />
       <span className="whitespace-nowrap">{service.name}</span>
     </span>
   );
 }
 
 /** "Solutions Suite": two service rows drifting in opposite directions (Figma Components 6 / 9). */
-export function ServicesCard() {
+export function ServicesCard({ services }: { services: Service[] }) {
   const half = Math.ceil(services.length / 2);
   const rows = [services.slice(0, half), services.slice(half)];
 

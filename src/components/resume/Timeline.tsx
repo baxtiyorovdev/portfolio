@@ -3,18 +3,18 @@
 import { useRef } from "react";
 import { RiBookOpenFill, RiGraduationCapFill } from "react-icons/ri";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
-import { educationTimeline, resume } from "@/lib/portfolio";
-import type { Education } from "@/types";
-
-const courses = new Set<Education>(resume.developer_education);
+import { isCrawler } from "@/lib/intro";
+import { getEducationTimeline } from "@/lib/portfolio";
+import type { Resume } from "@/types";
 
 /** Vertical education timeline; the violet rail fills as you scroll through it. */
-export function Timeline() {
+export function Timeline({ resume }: { resume: Resume }) {
   const root = useRef<HTMLDivElement>(null);
   const progress = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      if (isCrawler()) return;
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         gsap.fromTo(
@@ -56,12 +56,12 @@ export function Timeline() {
       />
 
       <ol className="flex flex-col gap-2">
-        {[...educationTimeline].reverse().map((item) => {
-          const Icon = courses.has(item) ? RiBookOpenFill : RiGraduationCapFill;
+        {getEducationTimeline(resume).reverse().map((item) => {
+          const Icon = item.kind === "course" ? RiBookOpenFill : RiGraduationCapFill;
           const [title, ...rest] = item.place.split(",");
           return (
             <li
-              key={`${item.id}-${item.place}`}
+              key={`${item.kind}-${item.id}-${item.place}`}
               data-tl-item
               className="relative flex items-center gap-3 rounded-tile bg-tile p-[7px] pr-4"
             >
