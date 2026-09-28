@@ -3,8 +3,10 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { RiExternalLinkLine, RiLogoutBoxRLine } from "react-icons/ri";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { UploadModeProvider } from "@/components/admin/UploadModeProvider";
 import { requireAdmin } from "@/lib/admin-session";
 import { getPortfolioForAdmin } from "@/lib/content";
+import { getUploadMode } from "@/lib/upload-mode";
 import { logout } from "../actions";
 
 export const dynamic = "force-dynamic";
@@ -66,7 +68,9 @@ export default async function AdminPanelLayout({ children }: { children: ReactNo
         </div>
       </aside>
 
-      <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 p-4 sm:p-6 lg:p-8">{children}</main>
+      <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 p-4 sm:p-6 lg:p-8">
+        <UploadModeProvider mode={getUploadMode()}>{children}</UploadModeProvider>
+      </main>
     </div>
   );
 }
