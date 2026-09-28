@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
-import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
-import { FaGithub, FaInstagram, FaTelegram } from "react-icons/fa";
-import { about } from "@/lib/portfolio";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import {
+  RiMailFill,
+  RiMapPin2Fill,
+  RiMessage3Fill,
+  RiPhoneFill,
+  RiRocket2Fill,
+  RiSendPlaneFill,
+  RiSignalTowerFill,
+} from "react-icons/ri";
+import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
+import { IconTile, LinkTile } from "@/components/bento/Primitives";
+import { PageHeader, PageShell } from "@/components/layout/PageShell";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { MapPanel } from "@/components/contact/MapPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getPortfolio } from "@/lib/content";
+import { emailHref, phoneHref } from "@/lib/portfolio";
+import { getSocialLinks } from "@/lib/social";
 import { breadcrumbSchema, contactPageSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -18,29 +26,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-const details = [
-  {
-    icon: <FiMail />,
-    label: "Email",
-    value: about.social.email,
-    href: `mailto:${about.social.email}`,
-  },
-  {
-    icon: <FiPhone />,
-    label: "Phone",
-    value: about.social.phone,
-    href: `tel:${about.social.phone.replace(/\s|\(|\)/g, "")}`,
-  },
-  { icon: <FiMapPin />, label: "Location", value: about.social.location },
-];
-
-const socials = [
-  { href: about.social.github, label: "GitHub", icon: <FaGithub /> },
-  { href: about.social.telegram, label: "Telegram", icon: <FaTelegram /> },
-  { href: about.social.instagram, label: "Instagram", icon: <FaInstagram /> },
-];
-
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { about } = await getPortfolio();
   return (
     <>
       <JsonLd
@@ -50,81 +37,65 @@ export default function ContactPage() {
         ])}
       />
       <JsonLd data={contactPageSchema} />
-      <Section className="pt-32 sm:pt-40" ariaLabelledby="contact-heading">
-      <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-        <div>
-          <SectionHeading
-            id="contact-heading"
-            kicker="Contact"
-            title={
-              <>
-                Let&apos;s start a{" "}
-                <span className="gradient-text">conversation</span>.
-              </>
-            }
-            description="Open to internships, freelance work and junior front-end roles. Drop a message and I'll reply soon."
-          />
+      <PageShell>
+        <PageHeader
+          icon={RiMessage3Fill}
+          label="Contact"
+          title={
+            <>
+              Let&apos;s start a <span className="text-primary">conversation</span>
+            </>
+          }
+          description="Open to internships, freelance work and junior front-end roles. Drop a message and I'll reply soon."
+        />
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {details.map((detail) => (
-              <Reveal key={detail.label}>
-                <SpotlightCard className="glass h-full rounded-2xl p-5">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-surface-2 text-accent">
-                    {detail.icon}
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+          <div className="flex min-w-0 flex-col gap-3">
+            <BentoCard aria-labelledby="channels-title" className="gap-6 p-5">
+              <CardHeader icon={RiSignalTowerFill} label="Reach Me" title="Direct Channels" id="channels-title" />
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <LinkTile href={emailHref(about)} icon={RiMailFill} label={about.social.email} />
+                </li>
+                <li>
+                  <LinkTile href={phoneHref(about)} icon={RiPhoneFill} label={about.social.phone} />
+                </li>
+                <li>
+                  <span className="flex min-h-[49px] items-center gap-1.5 rounded-tile bg-tile p-[7px]">
+                    <IconTile icon={RiMapPin2Fill} />
+                    <span className="text-sm font-medium text-soft">{about.social.location}</span>
                   </span>
-                  <p className="mt-4 font-mono text-xs uppercase tracking-wider text-muted">
-                    {detail.label}
-                  </p>
-                  {detail.href ? (
-                    <a
-                      href={detail.href}
-                      className="mt-1 block break-words font-medium transition-colors hover:text-accent"
-                    >
-                      {detail.value}
-                    </a>
-                  ) : (
-                    <p className="mt-1 break-words font-medium">{detail.value}</p>
-                  )}
-                </SpotlightCard>
-              </Reveal>
-            ))}
+                </li>
+              </ul>
+            </BentoCard>
 
-            <Reveal>
-              <div className="glass flex h-full items-center gap-3 rounded-2xl p-5">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label={social.label}
-                    className="glass-soft grid h-11 w-11 place-items-center rounded-full text-muted transition-all duration-300 hover:-translate-y-0.5 hover:text-accent"
-                  >
-                    {social.icon}
-                  </a>
+            <BentoCard aria-labelledby="follow-title" className="gap-6 p-5">
+              <CardHeader icon={RiRocket2Fill} label="Follow Me" title="Online Presence" id="follow-title" />
+              <ul className="grid grid-cols-2 gap-2">
+                {getSocialLinks(about).map((link) => (
+                  <li key={link.label} className="min-w-0">
+                    <LinkTile href={link.href} icon={link.icon} label={link.label} />
+                  </li>
                 ))}
-              </div>
-            </Reveal>
+              </ul>
+            </BentoCard>
+
+            <MapPanel about={about} />
           </div>
 
-          <div className="mt-6">
-            <MapPanel />
-          </div>
+          <BentoCard aria-labelledby="form-title" className="border-white/[0.06] pt-2.5 lg:self-start">
+            <CardHeader
+              bordered
+              icon={RiSendPlaneFill}
+              label="Message"
+              title="Send a Message"
+              id="form-title"
+            />
+            <p className="px-6 pt-5 text-sm font-medium text-muted">I usually respond within a day.</p>
+            <ContactForm />
+          </BentoCard>
         </div>
-
-        <Reveal>
-          <div className="glass rounded-xl3 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold">Send a message</h2>
-            <p className="mt-1 text-sm text-muted">
-              I usually respond within a day.
-            </p>
-            <div className="mt-6">
-              <ContactForm />
-            </div>
-          </div>
-        </Reveal>
-      </div>
-      </Section>
+      </PageShell>
     </>
   );
 }

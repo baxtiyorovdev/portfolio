@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RiBriefcase4Fill, RiGithubFill } from "react-icons/ri";
+import { PageHeader, PageShell } from "@/components/layout/PageShell";
+import { ActionButton } from "@/components/bento/Primitives";
 import { ProjectsView } from "@/components/projects/ProjectsView";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  breadcrumbSchema,
-  projectsCollectionSchema,
-} from "@/lib/structured-data";
+import { getPortfolio } from "@/lib/content";
+import { breadcrumbSchema, buildProjectsCollection } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -15,7 +14,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const data = await getPortfolio();
   return (
     <>
       <JsonLd
@@ -24,22 +24,25 @@ export default function ProjectsPage() {
           { name: "Projects", path: "/projects" },
         ])}
       />
-      <JsonLd data={projectsCollectionSchema} />
-      <Section className="pt-32 sm:pt-40" ariaLabelledby="projects-heading">
-      <SectionHeading
-        id="projects-heading"
-        kicker="Portfolio"
-        title={
-          <>
-            Things I&apos;ve <span className="gradient-text">built</span>.
-          </>
-        }
-        description="A selection of frontend and full-stack work. Tap any card for the gallery, stack and links."
-      />
-      <div className="mt-12">
-        <ProjectsView />
-      </div>
-      </Section>
+      <JsonLd data={buildProjectsCollection(data)} />
+      <PageShell>
+        <PageHeader
+          icon={RiBriefcase4Fill}
+          label="Projects"
+          title={
+            <>
+              Works <span className="text-primary">Gallery</span>
+            </>
+          }
+          description="A selection of frontend and full-stack work. Open any card for the gallery, stack and links."
+          actions={
+            <ActionButton href={data.about.social.github} icon={RiGithubFill} className="px-6">
+              More on GitHub
+            </ActionButton>
+          }
+        />
+        <ProjectsView projects={data.projects} />
+      </PageShell>
     </>
   );
 }

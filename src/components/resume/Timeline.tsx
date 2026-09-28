@@ -1,72 +1,86 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
-import { educationTimeline } from "@/lib/portfolio";
-import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { RiBookOpenFill, RiGraduationCapFill } from "react-icons/ri";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { isCrawler } from "@/lib/intro";
+import { getEducationTimeline } from "@/lib/portfolio";
+import type { Resume } from "@/types";
 
-export function Timeline() {
+/** Vertical education timeline; the violet rail fills as you scroll through it. */
+export function Timeline({ resume }: { resume: Resume }) {
   const root = useRef<HTMLDivElement>(null);
   const progress = useRef<HTMLDivElement>(null);
-  const reduced = usePrefersReducedMotion();
 
   useGSAP(
     () => {
-      if (reduced) return;
-
-      gsap.fromTo(
-        progress.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          transformOrigin: "top",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 75%",
-            end: "bottom 85%",
-            scrub: true,
+      if (isCrawler()) return;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.fromTo(
+          progress.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            transformOrigin: "top",
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top 75%",
+              end: "bottom 60%",
+              scrub: 0.6,
+            },
           },
-        },
-      );
+        );
 
-      gsap.from("[data-tl-item]", {
-        opacity: 0,
-        x: -24,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.15,
-        scrollTrigger: { trigger: root.current, start: "top 78%" },
+        gsap.from("[data-tl-item]", {
+          autoAlpha: 0,
+          x: -20,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.12,
+          scrollTrigger: { trigger: root.current, start: "top 80%", once: true },
+        });
       });
+      return () => mm.revert();
     },
-    { scope: root, dependencies: [reduced] },
+    { scope: root },
   );
 
   return (
-    <div ref={root} className="relative">
-      <div className="absolute bottom-2 left-[7px] top-2 w-px bg-border" />
+    <div ref={root} className="relative p-3 sm:p-4">
+      <div className="absolute bottom-8 left-[33px] top-8 w-px bg-line sm:left-[37px]" />
       <div
         ref={progress}
-        className="absolute bottom-2 left-[7px] top-2 w-px origin-top"
-        style={{ background: "var(--grad-gold)" }}
+        className="absolute bottom-8 left-[33px] top-8 w-px origin-top bg-primary sm:left-[37px]"
       />
 
-      <ul className="space-y-6">
-        {educationTimeline.map((item) => (
-          <li key={item.id} data-tl-item className="relative pl-10">
-            <span className="absolute left-0 top-1.5 h-4 w-4 rounded-full border-[3px] border-background bg-accent shadow-glow" />
-            <div className="glass rounded-2xl p-5">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <h3 className="font-semibold leading-tight">{item.place}</h3>
-                <span className="font-mono text-xs text-accent">
-                  {item.period}
-                </span>
+      <ol className="flex flex-col gap-2">
+        {getEducationTimeline(resume).reverse().map((item) => {
+          const Icon = item.kind === "course" ? RiBookOpenFill : RiGraduationCapFill;
+          const [title, ...rest] = item.place.split(",");
+          return (
+            <li
+              key={`${item.kind}-${item.id}-${item.place}`}
+              data-tl-item
+              className="relative flex items-center gap-3 rounded-tile bg-tile p-[7px] pr-4"
+            >
+              <span className="relative z-10 grid size-[35px] shrink-0 place-items-center rounded-[8px] bg-icon text-primary ring-4 ring-card">
+                <Icon aria-hidden className="size-4" />
+              </span>
+              <div className="min-w-0 flex-1 py-1">
+                <h3 className="text-sm font-semibold text-fg">{title.trim()}</h3>
+                <p className="text-xs font-medium text-faint">
+                  {[rest.join(",").trim(), item.degree].filter(Boolean).join(" · ")}
+                </p>
               </div>
-              <p className="mt-1.5 text-sm text-muted">{item.degree}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <span className="shrink-0 rounded-full border-[0.5px] border-white/5 bg-surface px-2.5 py-1 text-xs font-medium text-muted">
+                {item.period}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }

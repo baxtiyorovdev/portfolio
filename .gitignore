@@ -21,7 +21,8 @@ yarn-error.log*
 pnpm-debug.log*
 *.log
 
-# local env files
+# local env files (secrets never go in git; .env.example documents them)
+.env
 .env*.local
 
 # typescript / next

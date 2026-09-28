@@ -21,8 +21,8 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0c0a08",
-          color: "#f7f1e6",
+          background: "#050505",
+          color: "#e6e6e6",
           padding: 80,
           position: "relative",
           fontFamily: "sans-serif",
@@ -36,11 +36,13 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             background:
-              "radial-gradient(circle, rgba(245,185,66,0.4), rgba(245,185,66,0))",
+              // Fade out well inside the box so its edges never show.
+              "radial-gradient(circle at center, rgba(145,108,231,0.45) 0%, rgba(145,108,231,0) 70%)",
           }}
         />
 
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse (Satori) renders plain <img> only */}
           <img
             src={logoSrc}
             width={84}
@@ -53,7 +55,7 @@ export default function OpengraphImage() {
               fontSize: 26,
               letterSpacing: 8,
               textTransform: "uppercase",
-              color: "#c2b79f",
+              color: "#999999",
             }}
           >
             Front End Developer
@@ -62,10 +64,11 @@ export default function OpengraphImage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.02 }}>
-            Baxtiyorov Shaxriyor
+            {siteConfig.name}
           </div>
-          <div style={{ fontSize: 38, color: "#c2b79f", maxWidth: 940 }}>
-            Building clean, fast &amp; modern web interfaces.
+          <div style={{ fontSize: 40, color: "#916ce7" }}>{`@${siteConfig.handle}`}</div>
+          <div style={{ fontSize: 34, color: "#999999", maxWidth: 940 }}>
+            Front End Developer from Uzbekistan — React, Next.js &amp; TypeScript.
           </div>
         </div>
 
@@ -75,10 +78,10 @@ export default function OpengraphImage() {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 28,
-            color: "#c2b79f",
+            color: "#999999",
           }}
         >
-          <div style={{ color: "#f5b942" }}>baxtiyorov.dev</div>
+          <div style={{ color: "#e6e6e6" }}>{new URL(siteConfig.url).hostname}</div>
           <div>React · Next.js · TypeScript</div>
         </div>
       </div>

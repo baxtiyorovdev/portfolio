@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { FiArrowUpRight, FiClock, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
-import { FaGithub, FaInstagram, FaTelegram } from "react-icons/fa";
-import { about } from "@/lib/portfolio";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
-import { Button } from "@/components/ui/Button";
-import { Pill } from "@/components/ui/Pill";
+import {
+  RiFileList3Line,
+  RiGraduationCapFill,
+  RiMailFill,
+  RiMapPin2Fill,
+  RiPhoneFill,
+  RiShieldStarFill,
+  RiStackFill,
+  RiTranslate2,
+  RiUserSmileFill,
+} from "react-icons/ri";
+import { BentoCard, CardHeader } from "@/components/bento/BentoCard";
+import { Chip, IconTile, LinkTile, PrimaryButton } from "@/components/bento/Primitives";
+import { PageHeader, PageShell } from "@/components/layout/PageShell";
+import { StatsRow } from "@/components/home/StatsRow";
 import { Timeline } from "@/components/resume/Timeline";
 import { SkillsMatrix } from "@/components/resume/SkillsMatrix";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getPortfolio } from "@/lib/content";
+import { emailHref, getStats, phoneHref } from "@/lib/portfolio";
+import { getSocialLinks } from "@/lib/social";
 import { breadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -20,20 +30,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/resume" },
 };
 
-const contactRows = [
-  { icon: <FiMapPin />, value: about.social.location },
-  { icon: <FiClock />, value: about.social.experience },
-  { icon: <FiMail />, value: about.social.email, href: `mailto:${about.social.email}` },
-  { icon: <FiPhone />, value: about.social.phone },
-];
+export default async function ResumePage() {
+  const data = await getPortfolio();
+  const { about } = data;
+  const contactRows = [
+    { icon: RiMapPin2Fill, value: `${about.social.location} · ${about.timezone}` },
+    { icon: RiShieldStarFill, value: `${about.social.experience} experience` },
+    { icon: RiMailFill, value: about.social.email, href: emailHref(about) },
+    { icon: RiPhoneFill, value: about.social.phone, href: phoneHref(about) },
+  ];
 
-const socials = [
-  { href: about.social.github, label: "GitHub", icon: <FaGithub /> },
-  { href: about.social.telegram, label: "Telegram", icon: <FaTelegram /> },
-  { href: about.social.instagram, label: "Instagram", icon: <FaInstagram /> },
-];
-
-export default function ResumePage() {
   return (
     <>
       <JsonLd
@@ -42,124 +48,102 @@ export default function ResumePage() {
           { name: "Resume", path: "/resume" },
         ])}
       />
-      <Section className="pb-8 pt-32 sm:pt-40" ariaLabelledby="resume-heading">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <SectionHeading
-            id="resume-heading"
-            kicker="Resume"
-            title={
-              <>
-                Experience &amp;{" "}
-                <span className="gradient-text">education</span>.
-              </>
-            }
-            description={about.description}
-          />
-          <Reveal className="flex flex-wrap gap-3 lg:justify-end">
-            <Button href="/contact" iconRight={<FiArrowUpRight />}>
-              Hire me
-            </Button>
-            <Button href={about.social.github} external variant="secondary">
-              GitHub
-            </Button>
-          </Reveal>
-        </div>
-      </Section>
+      <PageShell>
+        <PageHeader
+          icon={RiFileList3Line}
+          label="Resume"
+          title={
+            <>
+              Experience &amp; <span className="text-primary">Education</span>
+            </>
+          }
+          description={about.description}
+          actions={<PrimaryButton href="/contact">Hire Me</PrimaryButton>}
+        />
 
-      <Section className="py-10">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <Reveal>
-            <aside className="glass rounded-xl3 p-6 lg:sticky lg:top-28">
-              <div className="flex items-center gap-4">
-                <span className="relative h-16 w-16 overflow-hidden rounded-2xl bg-surface-2">
-                  <Image
-                    src={about.image}
-                    alt={about.name}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
-                </span>
-                <div>
-                  <p className="font-semibold">{about.name}</p>
-                  <p className="text-sm text-muted">{about.title}</p>
-                </div>
+        <StatsRow stats={getStats(data)} />
+
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+          <BentoCard as="aside" aria-labelledby="summary-title" className="gap-6 p-5 lg:self-start">
+            <div className="flex items-center gap-4">
+              <span className="relative size-[72px] shrink-0 overflow-hidden rounded-tile bg-primary">
+                <Image
+                  src={about.avatar}
+                  alt={`${about.name} avatar`}
+                  fill
+                  sizes="72px"
+                  className="translate-y-1 object-cover object-top"
+                />
+              </span>
+              <div>
+                <h2 id="summary-title" className="text-lg font-semibold text-fg">
+                  {about.name}
+                </h2>
+                <p className="text-sm font-medium text-muted">{about.title}</p>
               </div>
+            </div>
 
-              <p className="mt-5 text-sm leading-relaxed text-muted">
-                {about.about_job}
+            <div className="flex flex-col gap-2">
+              <p className="flex items-center gap-2 text-sm font-medium text-muted">
+                <RiUserSmileFill aria-hidden className="size-4 text-primary" /> About
               </p>
+              <p className="text-sm font-medium leading-relaxed text-soft">{about.about_job}</p>
+            </div>
 
-              <ul className="mt-6 space-y-3">
-                {contactRows.map((row, index) => (
-                  <li key={index} className="flex items-center gap-3 text-sm">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-surface-2 text-accent">
-                      {row.icon}
+            <ul className="flex flex-col gap-2">
+              {contactRows.map((row) => (
+                <li key={row.value}>
+                  {row.href ? (
+                    <LinkTile href={row.href} icon={row.icon} label={row.value} />
+                  ) : (
+                    <span className="flex min-h-[49px] items-center gap-1.5 rounded-tile bg-tile p-[7px]">
+                      <IconTile icon={row.icon} />
+                      <span className="text-sm font-medium text-soft">{row.value}</span>
                     </span>
-                    {row.href ? (
-                      <a
-                        href={row.href}
-                        className="break-words transition-colors hover:text-accent"
-                      >
-                        {row.value}
-                      </a>
-                    ) : (
-                      <span className="break-words">{row.value}</span>
-                    )}
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-col gap-3">
+              <p className="flex items-center gap-2 text-sm font-medium text-muted">
+                <RiTranslate2 aria-hidden className="size-4 text-primary" /> Languages
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                {about.languages.map((language) => (
+                  <li key={language}>
+                    <Chip>{language}</Chip>
                   </li>
                 ))}
               </ul>
+            </div>
 
-              <div className="mt-6">
-                <h3 className="font-mono text-xs uppercase tracking-widest text-muted">
-                  Languages
-                </h3>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {about.languages.map((language) => (
-                    <Pill key={language}>{language}</Pill>
-                  ))}
-                </div>
-              </div>
+            <ul className="grid grid-cols-2 gap-2 border-t border-line pt-5">
+              {getSocialLinks(about).map((link) => (
+                <li key={link.label} className="min-w-0">
+                  <LinkTile href={link.href} icon={link.icon} label={link.label} />
+                </li>
+              ))}
+            </ul>
+          </BentoCard>
 
-              <div className="mt-6 flex gap-2.5 border-t border-border pt-5">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label={social.label}
-                    className="glass-soft grid h-10 w-10 place-items-center rounded-full text-muted transition-all duration-300 hover:-translate-y-0.5 hover:text-accent"
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            </aside>
-          </Reveal>
-
-          <div>
-            <h2 className="mb-6 text-2xl font-semibold">Education</h2>
-            <Timeline />
-          </div>
+          <BentoCard aria-labelledby="education-title" className="border-white/[0.06] pt-2.5">
+            <CardHeader
+              bordered
+              icon={RiGraduationCapFill}
+              label="Education"
+              title="Learning Timeline"
+              id="education-title"
+            />
+            <Timeline resume={data.resume} />
+          </BentoCard>
         </div>
-      </Section>
 
-      <Section ariaLabelledby="skills-matrix-heading">
-        <SectionHeading
-          id="skills-matrix-heading"
-          kicker="Skills"
-          title={
-            <>
-              Technical <span className="gradient-text">toolkit</span>.
-            </>
-          }
-          description="Levels reflect day-to-day comfort across the stack."
-        />
-        <div className="mt-10">
-          <SkillsMatrix />
-        </div>
-      </Section>
+        <BentoCard aria-labelledby="skills-title" className="border-white/[0.06] pt-2.5">
+          <CardHeader bordered icon={RiStackFill} label="Skills" title="Technical Toolkit" id="skills-title" />
+          <SkillsMatrix skills={data.resume.skills} />
+        </BentoCard>
+      </PageShell>
     </>
   );
 }
