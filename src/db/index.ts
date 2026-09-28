@@ -18,8 +18,12 @@ export function getDb(): Database | null {
   if (!url) return null;
 
   if (!globalForDb.db) {
-    globalForDb.pgPool = new Pool({ connectionString: url, max: 3, idleTimeoutMillis: 10_000 });
-    globalForDb.db = drizzle(globalForDb.pgPool, { schema });
+    const pool = new Pool({ connectionString: url, max: 3, idleTimeoutMillis: 10_000 });
+    // Neon drops idle connections; without a listener the pool's "error" event
+    // would crash the whole server process instead of just discarding the client.
+    pool.on("error", (error) => console.error("[db] Idle client error:", error.message));
+    globalForDb.pgPool = pool;
+    globalForDb.db = drizzle(pool, { schema });
   }
   return globalForDb.db;
 }
